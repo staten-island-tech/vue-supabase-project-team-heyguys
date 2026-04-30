@@ -1,5 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @plugin "daisyui";
+
+.press-start {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 700;
+  font-style: normal
+}
+
+.google-sans-code {
+  font-family: "Google Sans Code", monospace;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-variation-settings:
+    "MONO" 1;
+}
