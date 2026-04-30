@@ -9,14 +9,11 @@
 
 .press-start {
   font-family: "Press Start 2P", system-ui;
-  font-weight: 700;
-  font-style: normal
 }
 
 .google-sans-code {
   font-family: "Google Sans Code", monospace;
   font-optical-sizing: auto;
-  font-weight: 400;
   font-variation-settings:
     "MONO" 1;
 }
