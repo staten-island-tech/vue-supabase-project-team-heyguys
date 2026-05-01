@@ -2,7 +2,7 @@
     <BackgroundRects v-if="isLargeScreen"></BackgroundRects>
     <div v-else class="bg-gradient-to-b from-cyan-950 to-sky-800 fixed h-full w-full -translate-y-[2%]"></div>
     <div class="flex flex-row h-[85vh] w-full z-10">
-        <div class="h-full flex flex-col justify-around z-10" :class="buttonClasses">
+        <div class="h-full flex flex-col justify-around z-10 pl-[5%] -pr-[5%]" :class="buttonClasses">
             <MenuButton :url="'/inventory'" :title="'Inventory'"></MenuButton>
             <MenuButton :url="'/junkyard-gacha'" :title="'Gacha'"></MenuButton>
             <MenuButton :url="'/trading'" :title="'Trading'"></MenuButton>
