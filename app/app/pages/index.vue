@@ -4,14 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMediaQuery } from '@vueuse/core'
-const loggedIn:Ref<boolean> = ref(false)
-
-const isLargeScreen:Ref<boolean> = useMediaQuery('(min-width: 1024px)')
-const buttonClasses = computed(() => {
-    if (isLargeScreen.value) return ['py-[2%]', 'pl-[2%]', 'w-[60%]']
-    else return ['items-center', 'w-full', 'px-auto']
-})
+const loggedIn:Ref<boolean> = ref(true)
 </script>
 
 <style scoped></style>
