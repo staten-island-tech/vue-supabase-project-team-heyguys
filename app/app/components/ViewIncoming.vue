@@ -3,6 +3,7 @@
         <div class="h-[85%] w-full flex flex-col justify-between items-center py-[1%]">
             <TradeRequest v-for="num in [1, 2, 3]"></TradeRequest>
         </div>
+        <TradePagination></TradePagination>
     </div>
 </template>
 
