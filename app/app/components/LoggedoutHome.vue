@@ -2,7 +2,7 @@
     <div
         class="bg-gradient-to-b from-cyan-950 to-sky-800 fixed h-full w-full -translate-y-[2%] flex flex-col items-center">
         <div class="flex flex-col justify-around items-center bg-slate-300/60 z-10 w-[80%] h-[70%] mt-[5%] rounded-[5rem] border-yellow-500 border-2">
-            <LoginMenu></LoginMenu>
+            <LoginFields></LoginFields>
             <div class="h-[30%] w-[90%] flex flex-row justify-between items-center">
                 <button class="bg-white border-yellow-500 border-4 text-xl lg:text-3xl rounded-3xl press-start text-yellow-500 h-[80%] w-[42%]
                 transition-all ease-in-out hover:bg-yellow-200 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-yellow-300"
