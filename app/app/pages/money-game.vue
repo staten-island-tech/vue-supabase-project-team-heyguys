@@ -1,6 +1,6 @@
 <template>
     <div class="text-black">
-        PROFILE SETTINGS
+        MONEY GAME
     </div>
     <router-link to="/" class="text-black"> home </router-link>
 </template>
