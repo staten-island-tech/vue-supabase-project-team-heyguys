@@ -10,7 +10,7 @@
                 <GeneralButton :w="'w-[49%]'" :h="'h-full'" @click="mode='send trade'">Send a Trade</GeneralButton>
                 <GeneralButton :w="'w-[49%]'" :h="'h-full'" @click="mode='view incoming'">View Trades</GeneralButton>
             </div>
-            <ViewIncoming v-if="mode==='view incoming'"></ViewIncoming>
+            <ViewIncoming v-if="mode==='view incoming'" :requests="[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"></ViewIncoming>
             <SendTrade v-if="mode==='send trade'"></SendTrade>
         </div>
     </div>

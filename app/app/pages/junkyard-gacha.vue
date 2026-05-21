@@ -34,8 +34,8 @@
 
 <script setup lang="ts">
 
-const showResults:Ref = ref<boolean>(false)
-const results:Ref = ref<any[]>([])
+const showResults:Ref<boolean> = ref(false)
+const results:Ref<any[]> = ref([])
 
 async function rollGacha(numRolls:number) {
     showResults.value = false
