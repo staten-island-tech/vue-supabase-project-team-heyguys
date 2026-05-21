@@ -13,11 +13,11 @@
                     </h4>
                 </div>
                 <div class="h-[40%] w-full flex flex-row justify-around items-center my-[2%]">
-                    <general-button :w="'w-[45%]'" :h="'h-full'" class="justify-around"
+                    <general-button :w="'w-[45%]'" :h="'h-full'" class="justify-around lg:flex-row flex-col"
                     @click="rollGacha(1)"
                     > Pull One  <PriceTag :text="'$20'"></PriceTag>
                     </general-button>
-                    <general-button :w="'w-[45%]'" :h="'h-full'" class="justify-around"
+                    <general-button :w="'w-[45%]'" :h="'h-full'" class="justify-around lg:flex-row flex-col"
                     @click="rollGacha(10)"
                     > Pull Ten  <PriceTag :text="'$180'"></PriceTag>
                     </general-button>

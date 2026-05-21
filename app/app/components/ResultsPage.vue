@@ -1,5 +1,5 @@
 <template>
-    <div class="carousel rounded-box bg-gradient-to-tl from-yellow-300 to-white border-yellow-500 border-2 w-full h-[68%] p-[1%] flex flex-row items-center justify-center">
+    <div class="carousel rounded-3xl bg-white border-yellow-500 border-2 w-full h-[68%] p-[1%] flex flex-row items-center justify-center">
         <GachaResult v-for="result in results" :result="result">
         </GachaResult>
     </div>
