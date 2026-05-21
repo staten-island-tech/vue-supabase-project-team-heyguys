@@ -1,6 +1,6 @@
 <template>
-    <div class="w-[97%] bg-slate-200 h-[30%] rounded-2xl flex lg:flex-row flex-col justify-between items-center pl-[1%] py-[1%]">
-        <h3 class="text-black press-start text-xl w-[30%]"> USERNAME </h3>
+    <div class="w-[97%] bg-slate-200 h-[30%] rounded-2xl flex lg:flex-row flex-col justify-between items-center pl-[1%] py-[1%] my-[0.8%]">
+        <h3 class="text-black press-start text-xl w-[30%]"> {{  el }} </h3>
 
         <div class="lg:w-[80%] w-full h-[90%] flex flex-row justify-around items-center">
             <div class="bg-sky-800 h-[90%] aspect-square rounded-2xl border-blue-950 border-4 flex flex-row justify-around items-center">
@@ -23,7 +23,8 @@
                 <button class="aspect-square bg-red-400 border-2 border-red-900 w-[48%] rounded-xl font-black text-xl
                 hover:bg-red-500 active:bg-red-700
                 ease-in-out duration-300 hover:-translate-y-[2%] active:translate-y-[2%]
-                "> ✖ </button>
+                " @click="$emit('delete', el)"
+                > ✖ </button>
                 
             </div>
 
@@ -32,7 +33,14 @@
 </template>
 
 <script setup lang="ts">
+const emit = defineEmits(['delete'])
 
+defineProps({
+    el: {
+        type: null, 
+        required: true
+    }
+})
 </script>
 
 <style scoped>
