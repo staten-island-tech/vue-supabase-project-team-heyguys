@@ -33,7 +33,7 @@ const usedData = computed(() => {
 
 function deleteElement(deleteEl:any) { // change to type of tradeRequest
     sampleData.value = sampleData.value.filter((el) => el !== deleteEl)
-    if(!(sampleData.value.length % 3)) { pageNum.value -= 1 }
+    if(!(sampleData.value.length % 3) && (Math.floor(sampleData.value.length / 3) < pageNum.value)) { pageNum.value -= 1 }
 }
 
 </script>
