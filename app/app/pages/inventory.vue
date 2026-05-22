@@ -18,10 +18,15 @@
             <div class= "flex flex-col justify-end items-start mr-[200px] ml-auto mb-[-10] w-300px">
                 <button class="bg-white flex border-yellow-500 border-2 text-2xl rounded-lg press-start text-yellow-500 h-min w-full px-5 py-2 pr-10 pl-10 mt-[30px]
                 transition-all ease-in-out hover:bg-yellow-200 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-yellow-300" @click="$emit('buildmode')">Build New</button>
-                <div class ="h-full w-full items-center bg-gray-300 mt-1 rounded-xl">
+                <div class ="h-full w-full justify-between bg-gray-300 mt-1 rounded-xl">
+                    <div class="flex flex-col gap-2 items-center">
+                    <form class = "absolute bottom-10 flex border border-yellow-500 ">hello</form>
+                    <button class="bg-green-300 absolute bottom-10 flex border-green-500 border-2 text-sm rounded-lg press-start text-white h-min w-min px-4 py-2 mt-[30px]
+                transition-all ease-in-out hover:bg-green-400 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-green-300">Done</button>
+        
                 </div>
-                <div class="flex flex-row gap-2 items-center bg-gray-300 mt-1 rounded-xl">
                 </div>
+        
             </div>
             </div>
            
