@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-
+// for home page
 </script>
 
 <style scoped>

@@ -41,11 +41,7 @@
 </template>
 
 <script setup lang="ts">
-// before we make an interfaces file
-interface loginData {
-    username: string,
-    password: string
-}
+import type { loginData } from '~/utils/types/interfaces'
 
 const loginInput = reactive<loginData>({username: '', password: ''})
 

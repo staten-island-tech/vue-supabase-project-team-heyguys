@@ -1,13 +1,13 @@
 <template>
     <div class="h-[86%] border-2 w-[90%] rounded-2xl bg-white">
         <div class="h-[85%] w-full flex flex-col justify-start items-center py-[1%]">
-            <TradeRequest v-for="num in usedData"
+            <trade-request v-for="num in usedData"
             :el="num"
-            @delete="(deleteEl) => deleteElement(deleteEl)"
-            ></TradeRequest>
+            @delete="(deleteEl:any) => deleteElement(deleteEl)"
+            ></trade-request>
         </div>
         <TradePagination :pageNum="pageNum" :pageCount="Math.ceil(sampleData.length / 3)"
-        @back="pageNum=Math.max(pageNum-1, 1)"
+        @back="() => { if(pageNum) pageNum=Math.max(pageNum-1, 1) }"
         @forward="pageNum=Math.min(pageNum+1, Math.ceil(sampleData.length / 3))"
         ></TradePagination>
     </div>
