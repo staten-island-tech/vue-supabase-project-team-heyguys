@@ -1,5 +1,5 @@
 <template>
-    <div class="InventoryBox group relative bg-white h-[125px] w-[125px] border border-yellow-500 press-start text-sky-300 px-2 flex items-center flex-row justify-center rounded-lg text-[0.63rem] text-left
+    <div class="group relative bg-white h-[125px] w-[125px] border border-yellow-500 press-start text-sky-300 px-2 flex items-center flex-row justify-center rounded-lg text-[0.63rem] text-left
             transition-all ease-in-out duration-300 hover:bg-gray-100/95 hover:text-yellow-500 hover:-translate-y-1 hover:border-yellow-500 hover:border" 
             >
         <img src="/spriteplaceholder.PNG" alt="insert sprite" class="flex aspect-square w-12 h-12 object-contain">
