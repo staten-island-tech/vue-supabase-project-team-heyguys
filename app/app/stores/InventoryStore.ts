@@ -10,7 +10,7 @@ export interface RobotPart {
 }
 
 
-export const useInventoryStore = defineStore('owned_robot_parts', {
+export const useInventoryStore = defineStore('inventory', {
     state: () => ({
         inventory: [] as any[],
     }),
