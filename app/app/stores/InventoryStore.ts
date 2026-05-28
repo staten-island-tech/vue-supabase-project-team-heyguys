@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import {supabase} from '../lib/supabaseClient'
+import {getSupabase} from '../lib/supabaseClient'
 
 export interface RobotPart {
   id: string     
@@ -16,6 +16,11 @@ export const useInventoryStore = defineStore('inventory', {
     }),
     actions: {
         async fetchInventory() {
+            const supabase = getSupabase()
+            if (!supabase) {
+                console.error('Supabase client is not available')
+                return
+            }
             const { data, error } = await supabase
                 .from('inventory')
                 .select('*')

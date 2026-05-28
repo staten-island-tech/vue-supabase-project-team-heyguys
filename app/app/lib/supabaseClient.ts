@@ -1,8 +1,17 @@
 import { createClient } from '@supabase/supabase-js'
 
-const config = useRuntimeConfig()
+let supabaseInstance: any = null
 
-const supabaseUrl = config.public.supabaseUrl
-const supabaseAnonKey = config.public.supabaseAnonKey
+export function getSupabase() {
+  if (supabaseInstance) return supabaseInstance
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+  if (typeof window !== 'undefined') {
+    const url = import.meta.env.VITE_SUPABASE_URL
+    const key = import.meta.env.VITE_SUPABASE_ANON_KEY
+    
+    supabaseInstance = createClient(url, key)
+    return supabaseInstance
+  }
+  
+  return null
+}
