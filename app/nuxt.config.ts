@@ -8,8 +8,8 @@ export default defineNuxtConfig({
   modules: ['@nuxt/eslint', '@pinia/nuxt', '@nuxtjs/tailwindcss', '@nuxt/icon'],
   runtimeConfig: {
     public: {
-      supabaseUrl: process.env.SUPABASE_URL,
-      supabaseKey: process.env.SUPABASE_KEY,
+      supabaseUrl: process.env.VITE_SUPABASE_URL,
+      supabaseAnonKey: process.env.VITE_SUPABASE_ANON_KEY,
     },
   },
 })
