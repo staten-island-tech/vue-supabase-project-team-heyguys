@@ -1,4 +1,6 @@
 <template>
+     <div>
+  </div>
     <div
         class="bg-gradient-to-b from-cyan-950 to-sky-800 fixed h-[86vh] w-full -translate-y-[2%] flex flex-col items-center justify-center">
         <div class="flex flex-row justify-between items-center z-10 w-[80%] h-[10%] rounded-[5rem] m-[1%]">
@@ -35,6 +37,15 @@
 </template>
 
 <script setup lang="ts">
+
+import { useInventoryStore } from '~/stores/InventoryStore'
+
+const inventoryStore = useInventoryStore()
+
+onMounted(() => {
+  inventoryStore.fetchInventory()
+})
+
 
 </script>
 
