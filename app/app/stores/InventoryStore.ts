@@ -9,7 +9,6 @@ export interface RobotPart {
   quantity: number
 }
 
-
 export const useInventoryStore = defineStore('inventory', {
     state: () => ({
         inventory: [] as any[],
