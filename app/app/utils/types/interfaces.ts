@@ -9,7 +9,7 @@ export interface loginData {
     password: string
 }
 
-export interface statSpread { // hp = head, attack, 
+export interface statSpread { // hp = head, arms = attack, body = def, legs = speed
     hp: number,
     attack: number,
     defense: number
