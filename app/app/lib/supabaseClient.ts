@@ -12,6 +12,5 @@ export function getSupabase() {
     supabaseInstance = createClient(url, key)
     return supabaseInstance
   }
-  
   return null
 }

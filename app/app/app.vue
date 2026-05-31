@@ -5,3 +5,8 @@
     </NuxtLayout>
   </div>
 </template>
+
+<script setup lang="ts">
+const loginStore = useLoginStore()
+await loginStore.loadUser()
+</script>
