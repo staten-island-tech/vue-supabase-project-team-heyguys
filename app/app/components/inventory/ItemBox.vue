@@ -7,14 +7,14 @@
             <h3 class="text-[0.63rem] text-gray-800 absolute bottom-1 left-1">1x</h3>
         </div>
         <div class= "hidden group-hover:block">
-        <InfoBox>
+        <inventory-info-box>
             <p>name</p>
             <p>type</p>
             <p>desc</p>
-        </InfoBox>
+        </inventory-info-box>
         </div>
         <div class="absolute bottom-1 right-1">
-            <MiniButton type="add"></MiniButton> <!-- this needs to be a v-if depending on whether build mode is on or not later!! -->
+            <inventory-mini-button type="add"></inventory-mini-button> <!-- this needs to be a v-if depending on whether build mode is on or not later!! -->
         </div>
     </div>
 </template>
