@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import FilterButton from './FilterButton.vue'
-
 defineProps<{
   filters: string[]
 }>()
 </script>
 
 <template>
-  <div class="flex gap-1">
+  <div class="flex flex-wrap gap-1">
     <FilterButton
       v-for="filter in filters"
       :key="filter"
