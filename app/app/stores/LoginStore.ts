@@ -5,6 +5,7 @@ export const useLoginStore = defineStore('loginDetails',{
     state: () => ({
         loginDetails: {email: '', password: ''} as loginData,
         loggedInUser: null as null | object,
+        logInErrorMessage: null as null | string,
         supabase: getSupabase()
     }), 
     actions: {
@@ -14,19 +15,31 @@ export const useLoginStore = defineStore('loginDetails',{
         async login() {
             const { data, error } = await this.supabase.auth.signInWithPassword(this.loginDetails)
             if(error) {
-                console.error("ERROR:" + error.message)
+                this.logInErrorMessage = error.message
             } else {
                 this.loggedInUser = data.user
-                navigateTo('/') 
+                this.logInErrorMessage = null
+                navigateTo("/")
             }
         },
         async register() {
             const { data, error } = await this.supabase.auth.signUp(this.loginDetails)
             if(error) {
-                console.error("ERROR:" + error.message)
+                this.logInErrorMessage = error.message
             } else {
                 this.loggedInUser = data.user
-                navigateTo('/')  
+                this.logInErrorMessage = null
+                navigateTo("/")
+            }
+        },
+
+        async logOut() {
+            const { error } = await this.supabase.auth.signOut()
+            if(error) {
+                this.logInErrorMessage = error.message
+            } else if (this.loggedInUser) {
+                this.logInErrorMessage = null
+                location.reload()
             }
         },
 

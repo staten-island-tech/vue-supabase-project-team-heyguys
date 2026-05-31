@@ -4,6 +4,7 @@
       <NuxtPage></NuxtPage>
     </NuxtLayout>
   </div>
+  <login-error></login-error>
 </template>
 
 <script setup lang="ts">

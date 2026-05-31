@@ -37,8 +37,7 @@
 </template>
 
 <script setup lang="ts">
-
-import { useInventoryStore } from '~/stores/InventoryStore'
+console.log(useLoginStore().loggedInUser)
 
 const inventoryStore = useInventoryStore()
 
