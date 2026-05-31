@@ -6,12 +6,12 @@ defineProps<{
 
 <template>
   <div class="flex flex-wrap gap-1">
-    <FilterButton
+    <inventory-filter-button
       v-for="filter in filters"
       :key="filter"
       h="h-10"
     >
       {{ filter }}
-    </FilterButton>
+    </inventory-filter-button>
   </div>
 </template>
