@@ -37,7 +37,8 @@
         </div>
 
         <div v-if="showError" role="alert" class="alert alert-error fixed bottom-[4%] left-[2%] z-10">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -51,11 +52,13 @@
 import GachaHistory from '~/components/gacha/GachaHistory.vue'
 import ResultsPage from '~/components/gacha/ResultsPage.vue'
 
+import { getSupabase } from '~/lib/supabaseClient'
+
 const showError = ref<boolean>(false)
 
 const user = ref(await useLoginStore().getUserData())
 
-if(!useGachaStore().initialized) {
+if (!useGachaStore().initialized) {
     await useGachaStore().initialize()
 }
 
@@ -63,14 +66,70 @@ const showResults = ref<boolean>(false)
 const results = ref<ResultType[]>([])
 const showHistory = ref<boolean>(false)
 
+let ownedRobotData: ownedRobotPart[] = []
+
+const supabase = getSupabase()
+
 async function rollGacha(numRolls: number, cost: number) {
-    if(user.value.money >= cost) {
+    await supabase
+        .from('owned_robot_parts')
+        .select("*")
+        .eq('user_id', user.value.user_id)
+        .then((ownedRobots: object, error: Error) => {
+            if (error) {
+                console.error(error.message)
+            } else {
+                ownedRobotData = (ownedRobots as any).data
+            }
+        })
+
+    if (user.value.money >= cost) {
         showError.value = false
         showResults.value = false
         await nextTick() // so that it unloads to reload again
         results.value = []
         for (let i = 0; i < numRolls; i++) {
-            results.value.push(await useGachaStore().getRandomItem())
+            const result = useGachaStore().getRandomItem()
+            results.value.push(result)
+
+            const existingItem = ownedRobotData.find(
+                (item: ownedRobotPart) =>
+                    item.part_id === result.part_id &&
+                    item.user_id === user.value.user_id
+            )
+
+            if (existingItem) {
+
+                const {data, error} = await supabase
+                .from('owned_robot_parts')
+                .update({
+                    ["quantity"]: existingItem.quantity++
+                })
+                .eq("user_id", existingItem.user_id)
+                .eq("part_id", existingItem.part_id)
+                .select()
+
+                console.log(error, data)
+
+            } else {
+
+                ownedRobotData.push({
+                    user_id: user.value.user_id,
+                    part_id: result.part_id,
+                    completed_robot_id: null,
+                    quantity: 1
+                } as ownedRobotPart) // adds locally
+
+                const { data, error } = await supabase // adds to database
+                    .from('owned_robot_parts')
+                    .insert({
+                        user_id: user.value.user_id,
+                        part_id: result.part_id,
+                        completed_robot_id: null,
+                        quantity: 1
+                    })
+                
+            }
         }
         showResults.value = true
 
