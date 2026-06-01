@@ -18,10 +18,10 @@
                 </div>
                 <div class="h-[40%] w-full flex flex-row justify-around items-center my-[2%]">
                     <general-button :w="'w-[45%]'" :h="'h-full'" class="justify-around lg:flex-row flex-col"
-                        @click="rollGacha(1)"> Pull One <gacha-price-tag :text="'$20'"></gacha-price-tag>
+                        @click="rollGacha(1, 20)"> Pull One <gacha-price-tag :text="'$20'"></gacha-price-tag>
                     </general-button>
                     <general-button :w="'w-[45%]'" :h="'h-full'" class="justify-around lg:flex-row flex-col"
-                        @click="rollGacha(10)"> Pull Ten <gacha-price-tag :text="'$180'"></gacha-price-tag>
+                        @click="rollGacha(10, 180)"> Pull Ten <gacha-price-tag :text="'$180'"></gacha-price-tag>
                     </general-button>
                 </div>
             </div>
@@ -35,6 +35,15 @@
                 </general-button>
             </div>
         </div>
+
+        <div v-if="showError" role="alert" class="alert alert-error fixed bottom-[4%] left-[2%] z-10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+
+            <span class="text-bold press-start">Error: You cannot afford this. </span>
+        </div>
     </div>
 </template>
 
@@ -42,25 +51,30 @@
 import GachaHistory from '~/components/gacha/GachaHistory.vue'
 import ResultsPage from '~/components/gacha/ResultsPage.vue'
 
+const showError = ref<boolean>(false)
+
 const user = ref(await useLoginStore().getUserData())
 
 const showResults: Ref<boolean> = ref(false)
 const results: Ref<any[]> = ref([])
 const showHistory: Ref<boolean> = ref(false)
 
-async function rollGacha(numRolls: number) {
-    showResults.value = false
-    await nextTick() // so that it unloads to reload again
-    results.value = []
-    for (let i = 0; i < numRolls; i++) {
-        results.value.push(i)
-        // make this be the random function instead
-    }
-    showResults.value = true
+async function rollGacha(numRolls: number, cost: number) {
+    if(user.value.money >= cost) {
+        showError.value = false
+        showResults.value = false
+        await nextTick() // so that it unloads to reload again
+        results.value = []
+        for (let i = 0; i < numRolls; i++) {
+            results.value.push(i)
+            // make this be the random function instead
+        }
+        showResults.value = true
 
-    if(numRolls === 1) {user.value.money -= 20}
-    else {user.value.money -= 180}
-    useLoginStore().updateUserData("money", user.value.money)
+        if(numRolls === 1) {user.value.money -= 20}
+        else {user.value.money -= 180}
+        useLoginStore().updateUserData("money", user.value.money)
+    } else showError.value = true
 }
 
 </script>
