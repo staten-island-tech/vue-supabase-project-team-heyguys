@@ -55,9 +55,13 @@ const showError = ref<boolean>(false)
 
 const user = ref(await useLoginStore().getUserData())
 
-const showResults: Ref<boolean> = ref(false)
-const results: Ref<any[]> = ref([])
-const showHistory: Ref<boolean> = ref(false)
+if(!useGachaStore().initialized) {
+    await useGachaStore().initialize()
+}
+
+const showResults = ref<boolean>(false)
+const results = ref<ResultType[]>([])
+const showHistory = ref<boolean>(false)
 
 async function rollGacha(numRolls: number, cost: number) {
     if(user.value.money >= cost) {
@@ -66,13 +70,11 @@ async function rollGacha(numRolls: number, cost: number) {
         await nextTick() // so that it unloads to reload again
         results.value = []
         for (let i = 0; i < numRolls; i++) {
-            results.value.push(i)
-            // make this be the random function instead
+            results.value.push(await useGachaStore().getRandomItem())
         }
         showResults.value = true
 
-        if(numRolls === 1) {user.value.money -= 20}
-        else {user.value.money -= 180}
+        user.value.money -= cost
         useLoginStore().updateUserData("money", user.value.money)
     } else showError.value = true
 }

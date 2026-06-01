@@ -12,4 +12,15 @@ export default defineNuxtConfig({
       supabaseAnonKey: process.env.VITE_SUPABASE_ANON_KEY,
     },
   },
+  tailwindcss: {
+    config: {
+      safelist: [
+        'bg-yellow-300',
+        'bg-purple-300',
+        'bg-sky-300',
+        'bg-white',
+      ]
+    }
+  }
+
 })
