@@ -6,12 +6,8 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-    results: {
-        type: Array,
-        required: true
-    }
-})
+import type { ResultType } from '#imports';
+defineProps<{results: ResultType[]}>()
 
 </script>
 
