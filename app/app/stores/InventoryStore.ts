@@ -14,7 +14,7 @@ export const useInventoryStore = defineStore('inventory', {
         inventory: [] as any[],
     }),
     actions: {
-        async fetchInventory() {
+        async fetchInventory() { /*
             const supabase = getSupabase()
             if (!supabase) {
                 console.error('Supabase client is not available')
@@ -27,7 +27,7 @@ export const useInventoryStore = defineStore('inventory', {
                 console.error('Error fetching inventory:', error)
             } else {
                 this.inventory = data || []
-            }
+            } */
         },
     },
 }) 
