@@ -22,7 +22,7 @@ export interface robotPart { // also used for gacha results
     spriteUrl: string,
     rarityName: string,
     rarityVal: number,
-    stats: statSpread 
+    stat: number
 }
 
 export interface robotSet { // robots from the db NOT CHANGED BY USER
@@ -32,6 +32,7 @@ export interface robotSet { // robots from the db NOT CHANGED BY USER
     rightArm: robotPart,
     leftLeg: robotPart,
     rightLeg: robotPart
+    stats: statSpread
 }
 
 export interface builtRobot { // a robot you build
