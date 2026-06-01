@@ -37,14 +37,11 @@
 </template>
 
 <script setup lang="ts">
-console.log(useLoginStore().loggedInUser)
-
 const inventoryStore = useInventoryStore()
 
 onMounted(() => {
   inventoryStore.fetchInventory()
 })
-
 
 </script>
 

@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
 import {getSupabase} from '../lib/supabaseClient'
+import type { User } from '@supabase/supabase-js'
 
 export const useLoginStore = defineStore('loginDetails',{
     state: () => ({
         loginDetails: {email: '', password: ''} as loginData,
-        loggedInUser: null as null | object,
+        loggedInUser: null as User | null,
         logInErrorMessage: null as null | string,
         supabase: getSupabase()
     }), 
@@ -48,5 +49,31 @@ export const useLoginStore = defineStore('loginDetails',{
             const { data: { user } } = await supabase.auth.getUser()
             this.loggedInUser = user
         },
+
+        async getUserData() {
+            const { data, error } = await this.supabase
+            .from('users')
+            .select("*")
+            .eq('user_id', this.loggedInUser?.id)
+            .single()
+
+            if(error) {
+                console.error("ERROR:" + error.message)
+                return null
+            } return data
+        },
+        
+        async updateUserData(columnName:string, newData:any) {
+
+            const { data, error } = await this.supabase
+            .from("users")
+            .update({
+                [columnName]: newData
+            })
+            .eq('user_id', this.loggedInUser?.id)
+            .select()
+
+            if(error) console.error("ERROR:" + error.message)
+        }
     }
 })

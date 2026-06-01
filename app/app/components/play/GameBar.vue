@@ -47,7 +47,7 @@ function handleInput() {
         }
 
     } else { // if you did not hit the goal
-        emit("lose", score)
+        emit("lose", score.value)
     }
 }
 </script>

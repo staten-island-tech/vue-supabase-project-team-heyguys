@@ -13,7 +13,7 @@
             <div class="w-full h-[30%] flex flex-col justify-around items-center">
                 <div class="w-full h-[20%] flex items-center justify-center">
                     <h4 class="text-center press-start">
-                        YOUR BALANCE: INF MONEY
+                        YOUR BALANCE: ${{ user.money }}
                     </h4>
                 </div>
                 <div class="h-[40%] w-full flex flex-row justify-around items-center my-[2%]">
@@ -42,6 +42,7 @@
 import GachaHistory from '~/components/gacha/GachaHistory.vue'
 import ResultsPage from '~/components/gacha/ResultsPage.vue'
 
+const user = ref(await useLoginStore().getUserData())
 
 const showResults: Ref<boolean> = ref(false)
 const results: Ref<any[]> = ref([])
@@ -56,6 +57,10 @@ async function rollGacha(numRolls: number) {
         // make this be the random function instead
     }
     showResults.value = true
+
+    if(numRolls === 1) {user.value.money -= 20}
+    else {user.value.money -= 180}
+    useLoginStore().updateUserData("money", user.value.money)
 }
 
 </script>
