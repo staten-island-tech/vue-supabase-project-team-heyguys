@@ -14,7 +14,7 @@
             </svg>
 
             <span class="text-bold press-start text-xs text-black italic">
-                You are logged in as {{ loginStore.loggedInUser?.email }}
+                You are logged in as: {{ loginStore.loggedInUser?.email }}
             </span>
         </div>
     </div>

@@ -57,7 +57,16 @@ export interface gachaStoreState {
 }
 
 export interface ResultType {
+    part_id: string,
     item: robotPart,
     rarityName: string,
     class: string
+}
+
+export interface ownedRobotPart {
+    uuid: string,
+    user_id: string,
+    part_id: string,
+    completed_robot_id: string | null,
+    quantity: number
 }

@@ -68,7 +68,7 @@ export const useGachaStore = defineStore("gacha", {
         })
     },
 
-    async getRandomItem() {
+    getRandomItem() {
         let rarityNumber:number = Math.floor(100*Math.random())
         let pulledRarity = this.probabilityTable[3]
         this.probabilityTable.forEach((tier) => {
@@ -83,14 +83,15 @@ export const useGachaStore = defineStore("gacha", {
         function getClass(rarityName:string) {
             const rarityClasses: Record<string, string> = {
                 Legendary: "bg-yellow-300",
-                Epic:      "bg-purple-300",
-                Rare:      "bg-sky-300",
+                Epic: "bg-purple-300",
+                Rare: "bg-sky-300",
             }
-            
+
             return rarityClasses[rarityName] ?? "bg-white"
         }
 
         return {
+            part_id: (part as any).part_id,
             item: {
             name: part?.name,
             body_part: part?.body_part,
