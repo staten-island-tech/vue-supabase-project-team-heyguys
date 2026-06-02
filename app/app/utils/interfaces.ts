@@ -21,7 +21,8 @@ export interface robotPart { // also used for gacha results
     body_part: string,
     sprite_url: string,
     rarity_val: number,
-    stat: number
+    stat: number,
+    part_id: string,
 }
 
 export interface robotSet { // robots from the db NOT CHANGED BY USER
@@ -34,14 +35,11 @@ export interface robotSet { // robots from the db NOT CHANGED BY USER
     stats: statSpread
 }
 
-export interface builtRobot { // a robot you build
-    name: string
-    head: robotPart | null,
-    body: robotPart | null,
-    leftArm: robotPart | null,
-    rightArm: robotPart | null,
-    leftLeg: robotPart | null,
-    rightLeg: robotPart | null
+export interface completedRobot { // a robot you build
+    user_id: string
+    part_id: null
+    completed_robot_id: null,
+    quantity: null
 }
 
 export interface Rarity {
@@ -69,4 +67,27 @@ export interface ownedRobotPart {
     part_id: string,
     completed_robot_id: string | null,
     quantity: number
+}
+
+export interface inventoryPart { // for both parts and robots in inventory
+    uuid: string,
+    user_id: string,
+    part_id: string | null, // string for parts, null for robots
+    completed_robot_id: string | null,
+    quantity: number
+}
+
+export interface dbRobot {
+    uuid: string,
+    user_id: string
+}
+
+export interface itemBoxProp {
+    inventoryPart: inventoryPart,
+    itemInfo: robotPart
+}
+
+export interface filter {
+    displayName: string, // what is on the button
+    filterProp: string // what we will use for the filter
 }

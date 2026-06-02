@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { getSupabase } from '../lib/supabaseClient'
-import type { User } from '@supabase/supabase-js'
 
 const supabase = getSupabase() 
 
