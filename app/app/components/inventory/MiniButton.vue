@@ -18,15 +18,15 @@ const symbol = computed(() => {
 
 const buttonClasses = computed(() => {
   if (props.type === 'add'){
-    return 'bg-green-300 border-green-700 hover:bg-green-400 hover:border-green-800'
+    return 'bg-green-300 border-green-700 hover:bg-green-400 hover:border-green-800 active:bg-green-600 active:border-emerald-950'
   }
   if (props.type === 'remove'){
-    return 'bg-red-300 border-red-700 hover:bg-red-400 hover:border-red-800'
+    return 'bg-red-300 border-red-700 hover:bg-red-400 hover:border-red-800 active:bg-red-700 active:border-red-950'
   }
   if (props.type === 'delete'){
-    return 'bg-red-300 border-red-700 hover:bg-red-400 hover:border-red-800'
+    return 'bg-red-300 border-red-700 hover:bg-red-400 hover:border-red-800 active:bg-red-700 active:border-red-950'
   }
-  return 'bg-green-300 border-green-700 hover:bg-green-400 hover:border-green-800'
+  return 'bg-green-300 border-green-700 hover:bg-green-400 hover:border-green-800 active:bg-green-600 active:border-emerald-950'
 })
 </script>
 

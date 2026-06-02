@@ -13,11 +13,11 @@
                 <div class ="menu flex flex-1 flex-col justify-between items-center space-x-0">
                 <inventory-filter-menu :filters="['All', 'Heads', 'R.leg', 'L.Leg', 'R.Arm', 'L.Arm', 'Complete Robots']" />
                 </div>
-                <div class="h-full w-full flex flex-wrap flex-row gap-6 items-center justify-center p-2 overflow-y-scroll scrollbar-gutter: stable">
-                    <inventory-item-box v-for="i in 50" :key="i" /> <!--REPLACE THIS WITH USER INVENTORY LENGTH LATER-->
+                <div class="h-full w-full flex flex-wrap flex-row gap-6 items-center justify-center p-2 overflow-y-scroll scrollbar-gutter: stable py-10">
+                    <inventory-item-box v-for="i in 50" :key="i"/>
                 </div>
             </div>
-            <div class= "flex flex-col justify-around mb-[-10] w-300px">
+            <div class="flex flex-col justify-around mb-[-10] w-300px">
                 <button class="bg-white flex border-yellow-500 border-2 text-2xl rounded-lg press-start text-yellow-500 h-min w-full px-5 py-2 pr-10 pl-10 mt-[30px]
                 transition-all ease-in-out hover:bg-yellow-200 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-yellow-300" @click="$emit('buildmode')">Build New</button>
                 <div class ="h-full w-full justify-between bg-gray-300 mt-1 rounded-xl">
@@ -38,6 +38,8 @@
 
 <script setup lang="ts">
 const inventoryStore = useInventoryStore()
+
+let left = ref<Number>(0)
 
 onMounted(() => {
   inventoryStore.fetchInventory()
