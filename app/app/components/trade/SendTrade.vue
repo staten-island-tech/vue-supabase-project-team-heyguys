@@ -1,31 +1,113 @@
 <template>
     <div class="h-[86%] w-[90%] rounded-2xl flex flex-row justify-between">
         <div class="bg-slate-200 w-[49%] rounded-xl">
-            <div class="bg-white w-full rounded-xl h-[20%] flex flex-col lg:py-0 py-[1%] lg:flex-row justify-between items-center px-[1%]">
-                <h3 class="text-black press-start text-md lg:text-xl text-center lg:w-[20%]"> Item Search </h3>
+            <div class="bg-white w-full rounded-xl h-[25%] flex flex-col py-[2%] justify-between items-center px-[1%]">
+                <h3 class="text-black press-start text-md lg:text-xl text-center"> Item Search </h3>
+                <p class="text-[.6rem] italic text-center press-start text-sky-700">Search for users with this robot's parts</p>
                 <label
-            class="input pl-0 flex flex-row items-center bg-white border-yellow-500 border-4 h-[80%] w-full lg:w-[70%] rounded-3xl">
-            <input v-model="itemSearch" type="search" class="lg:w-[70%] w-full grow press-start text-black text-md px-[1%] pl-[5%]" placeholder="Search" />
-            <!-- CHANGE THIS HERE HERE HERE-->
+            class="input px-0 flex flex-row justify-between items-center bg-white border-yellow-500 border-4 w-full rounded-3xl">
+            <input v-model="itemInput" type="search" class="lg:w-[70%] w-full grow press-start text-black text-md px-[1%] pl-[5%]" placeholder="Search" />
+            <GeneralButton :w="'w-[20%]'" :h="'aspect-[3/2] right'" @click="searchForItem()">></GeneralButton>
         </label>
+            </div>
+            <div v-if="Array.isArray(itemsFound)" class="justify-around m-[2%] mt-[5%] p-[3%] h-[65%] bg-white rounded-2xl border-yellow-400 border-2">
+                <trade-no-item-found v-if="itemsFound.length === 0"></trade-no-item-found>
+                <trade-item-card v-else v-for="el in itemsFound"></trade-item-card>
             </div>
         </div>
+
         <div class="bg-slate-200 w-[49%] rounded-xl">
-            <div class="bg-white w-full rounded-xl h-[20%] flex flex-col lg:py-0 py-[1%] lg:flex-row justify-between items-center px-[1%]">
-                <h3 class="text-black press-start text-md lg:text-xl text-center lg:w-[20%]"> User Search </h3>
+            <div class="bg-white w-full rounded-xl h-[25%] flex flex-col py-[2%] justify-between items-center px-[1%]">
+                <h3 class="text-black press-start text-md lg:text-xl text-center"> User Search </h3>
+                <p class="text-[.6rem] italic text-center press-start text-sky-700">Search for users by their email addresses</p>
                 <label
-            class="input pl-0 flex flex-row items-center bg-white border-yellow-500 border-4 h-[80%] lg:w-[70%] w-full rounded-3xl">
-            <input v-model="userSearch" type="search" class="lg:w-[70%] w-full grow press-start text-black text-md px-[1%] pl-[5%]" placeholder="Search" />
+            class="input px-0 flex flex-row items-center bg-white border-yellow-500 border-4 w-full rounded-3xl">
+            <input v-model="userInput" type="search" class="lg:w-[70%] w-full grow press-start text-black text-md px-[1%] pl-[5%]" placeholder="Search" />
+            <GeneralButton :w="'w-[20%]'" :h="'aspect-[3/2] right'" @click="searchForUser()"> ></GeneralButton>
             <!-- CHANGE THIS HERE HERE HERE-->
         </label>
             </div>
+
+            <trade-user-card v-if="userFound?.email" :is-user="isUser" :email="userFound.email"></trade-user-card>
+            <trade-no-user-found v-else-if="userFound === 0"></trade-no-user-found>
+
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-let itemSearch = ref<string>("")
-let userSearch = ref<string>("")
+import { getSupabase } from '~/lib/supabaseClient'
+import { useLoginStore, type robotPart } from '#imports'
+
+let itemInput = ref<string>("")
+let userInput = ref<string>("")
+let itemsFound = ref<null | any[]>(null)
+let userFound = ref<any>(null)
+let isUser = ref<boolean>(false)
+
+async function searchForUser() {
+    userFound.value = null
+    let userSearch = ref<string>((userInput.value).toLowerCase())
+    const supabase = getSupabase() 
+    const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("email", userSearch.value)
+    .single()
+    
+    if(error) {
+        console.error(error.message)
+    } else if (data.email === useLoginStore().loggedInUser?.email) {
+        userFound.value = data
+        isUser.value = true
+    } else {
+        userFound.value = data
+        isUser.value = false
+    }
+    if(!data) {
+        userFound.value = 0
+    }
+}
+
+function caseFix(text:string) {
+    return text
+    .toLowerCase()
+    .replace(/\b\w/g, char => char.toUpperCase());
+}
+
+async function getValidItems(validIds:string[]) {
+    itemsFound.value = null
+    const supabase = getSupabase()
+    const { data, error } = await supabase
+    .from("owned_robot_parts")
+    .select("*")
+    .in("part_id", validIds)
+    if(error) {
+        console.error(error.message)
+    } else {
+        itemsFound.value = data
+    }
+}
+
+async function searchForItem() {
+    let itemSearch = ref<string>(caseFix(itemInput.value)) 
+        const supabase = getSupabase() 
+        const { data, error } = await supabase
+        .from("robot_parts")
+        .select("*")
+        .eq("name", itemSearch.value)
+    
+        if(error) {
+            console.error(error.message)
+        } else {
+            let validIds:string[] = []
+            data.forEach((part:robotPart) => {
+                validIds.push(part.part_id)
+            })
+            getValidItems(validIds)
+        }
+}
+
 </script>
 
 <style scoped>
