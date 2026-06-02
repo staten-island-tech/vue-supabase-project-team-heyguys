@@ -11,10 +11,13 @@
             <div class = "flex flex-row justify-between w-full h-full">
             <div class = "inventory h-[65vh] w-[40vw] rounded-2xl flex justify-start flex-col items-center bg-gray-100 mx-[1%] mb-2">
                 <div class ="menu flex flex-1 flex-col justify-between items-center space-x-0">
-                <inventory-filter-menu :filters="['All', 'Heads', 'R.leg', 'L.Leg', 'R.Arm', 'L.Arm', 'Complete Robots']" />
+                <inventory-filter-menu :filters="filters" 
+                @use-filter="(newFilter) => currentFilter = newFilter"
+                />
                 </div>
-                <div class="h-full w-full flex flex-wrap flex-row gap-6 items-center justify-center p-2 overflow-y-scroll scrollbar-gutter: stable py-10">
-                    <inventory-item-box v-for="i in 50" :key="i"/>
+                <div class="w-[95%] h-[2%] rounded-full bg-yellow-400"></div>
+                <div class="h-full w-full flex flex-wrap flex-row gap-6 items-center justify-center p-2 overflow-y-scroll scrollbar-gutter: stable pt-6"> 
+                    <inventory-item-box v-for="item in filteredItemBoxProps" :item="item"/>
                 </div>
             </div>
             <div class="flex flex-col justify-around mb-[-10] w-300px">
@@ -37,13 +40,54 @@
 </template>
 
 <script setup lang="ts">
+const currentFilter = ref<string>("")
+const filters:filter[] = [
+    {displayName: "All", filterProp: "All"},
+    {displayName: "Heads", filterProp: "Head"},
+    {displayName: "R.Legs", filterProp: "Right Leg"},
+    {displayName: "L. Legs", filterProp: "Left Leg"},
+    {displayName: "R. Arms", filterProp: "Right Arm"},
+    {displayName: "L. Arms", filterProp: "Left Arm"},
+    {displayName: "Bodies", filterProp: "Body"},
+    {displayName: "Robots", filterProp: "Complete Robots"},
+]
+
+const gachaStore = useGachaStore()
+
 const inventoryStore = useInventoryStore()
+if(!gachaStore.initialized) {
+    await gachaStore.initialize()
+}
+if(!inventoryStore.initialized) {
+    await inventoryStore.initialize()
+}
 
-let left = ref<Number>(0)
+let itemBoxProps = ref<itemBoxProp[]>([])
 
-onMounted(() => {
-  inventoryStore.fetchInventory()
+inventoryStore.inventory.forEach((item:inventoryPart) => {
+    if(item.part_id) {
+        let info = gachaStore.rewardData?.find((gachaItem:robotPart) => gachaItem.part_id === item.part_id)
+
+        itemBoxProps.value.push({
+            inventoryPart: item,
+            itemInfo: info
+        } as itemBoxProp)
+    }
 })
+
+let filteredItemBoxProps:ComputedRef<itemBoxProp[]> = computed(() => {
+    console.log(currentFilter.value)
+    if(currentFilter.value == "All") {
+        return itemBoxProps.value
+    } else if (currentFilter.value == "Complete Robots") {
+        return itemBoxProps.value // placeholder bc we dont have robots
+    } else {
+        console.log(itemBoxProps.value.filter((item:itemBoxProp) => item.itemInfo.body_part == currentFilter.value))
+        return itemBoxProps.value.filter((item:itemBoxProp) => item.itemInfo.body_part == currentFilter.value)
+    }
+})
+
+currentFilter.value = "All"
 
 </script>
 
