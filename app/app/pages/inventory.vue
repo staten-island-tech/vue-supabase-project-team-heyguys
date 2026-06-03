@@ -16,7 +16,7 @@
                 />
                 </div>
                 <div class="w-[95%] h-[2%] rounded-full bg-yellow-400"></div>
-                <div class="h-full w-full flex flex-wrap flex-row gap-6 items-center justify-center p-2 overflow-y-scroll scrollbar-gutter: stable pt-6"> 
+                <div class="h-full w-full flex flex-wrap flex-row gap-6 items-center justify-center p-2 overflow-y-scroll scrollbar-gutter stable pt-6"> 
                     <inventory-item-box v-for="item in filteredItemBoxProps" :item="item"/>
                 </div>
             </div>
@@ -82,7 +82,7 @@ let filteredItemBoxProps:ComputedRef<itemBoxProp[]> = computed(() => {
     } else if (currentFilter.value == "Complete Robots") {
         return itemBoxProps.value // placeholder bc we dont have robots
     } else {
-        console.log(itemBoxProps.value.filter((item:itemBoxProp) => item.itemInfo.body_part == currentFilter.value))
+        console.log(itemBoxProps.value.filter((item:itemBoxProp) => item.itemInfo.body_part === currentFilter.value))
         return itemBoxProps.value.filter((item:itemBoxProp) => item.itemInfo.body_part == currentFilter.value)
     }
 })

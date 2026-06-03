@@ -11,13 +11,15 @@
                 <GeneralButton :w="'w-[49%]'" :h="'h-full'" @click="mode='view incoming'">View Trades</GeneralButton>
             </div>
             <trade-view-incoming v-if="mode==='view incoming'" :requests="[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"></trade-view-incoming>
-            <trade-send-trade v-if="mode==='send trade'"></trade-send-trade>
+            <trade-send-trade v-else-if="mode==='send trade'"></trade-send-trade>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 let mode = ref<string | null>(null)
+
+
 </script>
 
 <style scoped>
