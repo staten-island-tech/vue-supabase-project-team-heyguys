@@ -91,3 +91,8 @@ export interface filter {
     displayName: string, // what is on the button
     filterProp: string // what we will use for the filter
 }
+
+export interface PartIdLink {
+    part_id: string,
+    part: robotPart
+}

@@ -10,9 +10,10 @@
             <GeneralButton :w="'w-[20%]'" :h="'aspect-[3/2] right'" @click="searchForItem()">></GeneralButton>
         </label>
             </div>
-            <div v-if="Array.isArray(itemsFound)" class="justify-around m-[2%] mt-[5%] p-[3%] h-[65%] bg-white rounded-2xl border-yellow-400 border-2">
+            <div v-if="Array.isArray(itemsFound)" class="justify-around m-[2%] mt-[5%] p-[3%] h-[65%] bg-white rounded-2xl border-yellow-400 border-2
+            overflow-y-scroll scrollbar-gutter stable">
                 <trade-no-item-found v-if="itemsFound.length === 0"></trade-no-item-found>
-                <trade-item-card v-else v-for="el in itemsFound"></trade-item-card>
+                <trade-item-card v-else v-for="el in itemsFound" :item="el"></trade-item-card>
             </div>
         </div>
 
@@ -75,8 +76,11 @@ function caseFix(text:string) {
     .replace(/\b\w/g, char => char.toUpperCase());
 }
 
-async function getValidItems(validIds:string[]) {
+async function getValidItems(validParts:PartIdLink[] ) {
     itemsFound.value = null
+    const validIds:string[] = []
+    validParts.forEach((part) => validIds.push(part.part_id))
+
     const supabase = getSupabase()
     const { data, error } = await supabase
     .from("owned_robot_parts")
@@ -85,6 +89,7 @@ async function getValidItems(validIds:string[]) {
     if(error) {
         console.error(error.message)
     } else {
+        console.log(data)
         itemsFound.value = data
     }
 }
@@ -100,11 +105,14 @@ async function searchForItem() {
         if(error) {
             console.error(error.message)
         } else {
-            let validIds:string[] = []
-            data.forEach((part:robotPart) => {
-                validIds.push(part.part_id)
+            let validParts:PartIdLink[] = []
+            data.forEach((validPart:robotPart) => {
+                validParts.push({
+                    part_id: validPart.part_id,
+                    part: validPart
+                } as PartIdLink)
             })
-            getValidItems(validIds)
+            getValidItems(validParts)
         }
 }
 
