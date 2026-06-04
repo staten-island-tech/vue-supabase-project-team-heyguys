@@ -2,12 +2,17 @@
     <div class="h-[86%] border-2 w-[90%] rounded-2xl bg-white">
         <div class="h-[85%] w-full flex flex-col justify-start items-center py-[1%]">
             <trade-request v-for="tradeObject in filteredTradeObjects"
-            :tradeObject="tradeObject"
+            :tradeObject="tradeObject" v-if="tradeObjects.length > 0"
             @delete="(deleteEl:TradeObject) => deleteTrade(deleteEl)"
             @confirm="(tradeObject:TradeObject) => confirmTrade(tradeObject)"
             ></trade-request>
+            <div class="press-start h-full w-full border-2 border-yellow-500 rounded-2xl flex items-center mx-[5%]" v-else>
+                <h2 class="text-4xl w-full text-black flex items-center justify-center text-center">
+                    NO TRADES FOUND
+                </h2>
+            </div>
         </div>
-        <TradePagination :pageNum="pageNum" :pageCount="Math.ceil(tradeObjects.length / 3)"
+        <TradePagination :pageNum="tradeObjects.length ? pageNum : 0" :pageCount="Math.ceil(tradeObjects.length / 3)"
         @back="() => { if(pageNum) pageNum=Math.max(pageNum-1, 1) }"
         @forward="pageNum=Math.min(pageNum+1, Math.ceil(tradeObjects.length / 3))"
         ></TradePagination>

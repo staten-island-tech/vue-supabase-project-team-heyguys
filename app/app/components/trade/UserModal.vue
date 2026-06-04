@@ -30,7 +30,9 @@
 
         <div class="w-full h-[85%] border-2 border-yellow-500 rounded-2xl bg-white/70 
         overflow-y-scroll p-[2%]" v-else-if="viewMode === 'confirm trade'">
-            <trade-confirm-request :sendPart="sendPart" :receivePart="receivePart" :receiverEmail="user.email"
+            <trade-confirm-request 
+            :sendPart="sendPart as PartIdLink" 
+            :receivePart="receivePart as PartIdLink" :receiverEmail="user.email"
             @confirm="(sendPart:PartIdLink, receivePart:PartIdLink) => $emit('confirm', sendPart, receivePart)"
             ></trade-confirm-request>
         </div>
