@@ -96,3 +96,23 @@ export interface PartIdLink {
     part_id: string,
     part: robotPart
 }
+
+export interface OwnedIdLink {
+    part_id: string,
+    part: ownedRobotPart
+}
+
+export interface TradeObject {
+    uuid: string | null,
+    receiver: string | null,
+    sender: string | null,
+    offer: string | null,
+    request: string | null,
+
+    offerPart: robotPart | null,
+    requestPart: robotPart | null
+
+    senderEmail: string | null,
+    offerOwnedPart: ownedRobotPart | null, 
+    requestOwnedPart: ownedRobotPart | null,
+}
