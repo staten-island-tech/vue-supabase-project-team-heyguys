@@ -4,6 +4,7 @@
             <trade-request v-for="tradeObject in filteredTradeObjects"
             :tradeObject="tradeObject"
             @delete="(deleteEl:TradeObject) => deleteTrade(deleteEl)"
+            @confirm="(tradeObject:TradeObject) => confirmTrade(tradeObject)"
             ></trade-request>
         </div>
         <TradePagination :pageNum="pageNum" :pageCount="Math.ceil(tradeObjects.length / 3)"
@@ -45,20 +46,22 @@ async function linkEverything() {
     const partData = await getTableData('robot_parts')
 
     tradeData.forEach((trade:any) => {
-        tradeObjects.value.push({ // it aint pretty but life aint always pretty either.
-            uuid: trade.uuid,
-            receiver: trade.receiver,
-            sender: trade.sender,
-            offer: trade.offer,
-            request: trade.request,
+        if(trade.receiver === useLoginStore().loggedInUser?.id) {
+            tradeObjects.value.push({ // it aint pretty but life aint always pretty either.
+                uuid: trade.uuid,
+                receiver: trade.receiver,
+                sender: trade.sender,
+                offer: trade.offer,
+                request: trade.request,
 
-            offerPart: partData.find((part:robotPart) => part.part_id === trade.offer),
-            requestPart: partData.find((part:robotPart) => part.part_id === trade.request),
+                offerPart: partData.find((part:robotPart) => part.part_id === trade.offer),
+                requestPart: partData.find((part:robotPart) => part.part_id === trade.request),
 
-            senderEmail: userData.find((user:any) => user.user_id === trade.sender).email,
-            offerOwnedPart: ownedPartData.find((part:ownedRobotPart) => part.part_id === trade.offer && part.user_id === trade.sender && !part.completed_robot_id), 
-            requestOwnedPart:  ownedPartData.find((part:ownedRobotPart) => part.part_id === trade.request && part.user_id === trade.receiver && !part.completed_robot_id),
-        })
+                senderEmail: userData.find((user:any) => user.user_id === trade.sender).email,
+                offerOwnedPart: ownedPartData.find((part:ownedRobotPart) => part.part_id === trade.offer && part.user_id === trade.sender && !part.completed_robot_id), 
+                requestOwnedPart:  ownedPartData.find((part:ownedRobotPart) => part.part_id === trade.request && part.user_id === trade.receiver && !part.completed_robot_id),
+            })
+        }
     })
     console.log(tradeObjects.value)
 }
@@ -77,6 +80,86 @@ async function deleteTrade(tradeObject:TradeObject) {
     tradeObjects.value = tradeObjects.value.filter((el) => el !== tradeObject)
     if(!(tradeObjects.value.length % 3) && (Math.floor(tradeObjects.value.length / 3) < pageNum.value)) { pageNum.value -= 1 }
 }
+
+async function confirmTrade(tradeObject:TradeObject) {
+    const ownedPartData:ownedRobotPart[] = await getTableData('owned_robot_parts')
+    const supabase = getSupabase()
+
+    if(
+        !(ownedPartData.find((ownedPart) => ownedPart.uuid === tradeObject.offerOwnedPart?.uuid)) || 
+        !(ownedPartData.find((ownedPart) => ownedPart.uuid === tradeObject.requestOwnedPart?.uuid)) // if you dont have that part anymore for whatever reason
+    ) {
+        console.log("ERROR: This trade cannot be processed.")
+        await deleteTrade(tradeObject)
+        return
+    } else {
+        deleteTrade(tradeObject)
+        const offerPart:ownedRobotPart = ownedPartData.find((ownedPart:ownedRobotPart) => ownedPart.uuid === tradeObject.offerOwnedPart?.uuid)!
+        const requestPart:ownedRobotPart = ownedPartData.find((ownedPart:ownedRobotPart) => ownedPart.uuid === tradeObject.requestOwnedPart?.uuid)!
+        
+        const reverseOfferPart:(ownedRobotPart | undefined) = ownedPartData.find( // if the person on the other end of the trade has that item
+            (ownedPart:ownedRobotPart) => 
+            ownedPart.part_id === tradeObject.offerPart?.part_id
+            && ownedPart.user_id === tradeObject.receiver)
+        const reverseRequestPart:(ownedRobotPart | undefined) = ownedPartData.find( // if the person on the other end of the trade has that item
+            (ownedPart:ownedRobotPart) => 
+            ownedPart.part_id === tradeObject.requestPart?.part_id
+            && ownedPart.user_id === tradeObject.sender)
+
+        const parts:ownedRobotPart[] = [offerPart, requestPart]
+        const reverseParts:(ownedRobotPart | undefined)[] = [reverseOfferPart, reverseRequestPart]
+
+        parts.forEach(async (part:ownedRobotPart, index) => {
+            part.quantity = Math.max(part.quantity-1, 0)
+
+            // remove from current inventory
+
+            if(part.quantity === 0) {
+                const { data, error } = await supabase
+                .from("owned_robot_parts")
+                .delete()
+                .eq("uuid", part.uuid)
+            } else {
+                const { data, error } = await supabase
+                .from("owned_robot_parts")
+                .update({
+                    "quantity": part.quantity
+                })
+            }   
+
+        })
+
+        reverseParts.forEach(async (reversePart:(ownedRobotPart | undefined), index) => {
+            if(reversePart) {
+                const { data, error } = await supabase
+                .from("owned_robot_parts")
+                .update({
+                    "quantity": reversePart.quantity ++
+                })
+            } else if (!index) {
+                const { data, error } = await supabase
+                .from("owned_robot_parts")
+                .insert({
+                    part_id: tradeObject.offerOwnedPart?.part_id,
+                    user_id: tradeObject.receiver,
+                    completed_robot_id: null,
+                    quantity: 1
+                })
+                if(error) console.error(error.message)
+            } else {
+                const { data, error } = await supabase
+                .from("owned_robot_parts")
+                .insert({
+                    part_id: tradeObject.requestOwnedPart?.part_id,
+                    user_id: tradeObject.sender,
+                    completed_robot_id: null,
+                    quantity: 1
+                })
+                if(error) console.error(error.message)
+            }
+        })
+    }
+}  
 
 const filteredTradeObjects = computed(() => {
     return tradeObjects.value.filter((el, index) => Math.floor(index / 3) === pageNum.value - 1)
