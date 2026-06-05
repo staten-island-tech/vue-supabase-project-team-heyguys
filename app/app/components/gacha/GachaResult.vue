@@ -3,7 +3,7 @@
     :class="result.class">
         <div>
             <h3 class="press-start text-lg text-black text-center">
-                {{ result.item?.name }}
+                {{ result.item?.name }}'s
             </h3> <!-- name of completed robot -->
             <h3 class="press-start text-md text-amber-500 text-center italic">
                 {{ result.item?.body_part }}
@@ -24,7 +24,6 @@ import type { ResultType } from '#imports'
 const props = defineProps<{
     result: ResultType
 }>()
-
 </script>
 
 <style scoped>

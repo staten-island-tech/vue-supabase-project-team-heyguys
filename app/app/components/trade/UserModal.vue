@@ -5,8 +5,8 @@
         <div class="w-full h-[14%] flex flex-col justify-between">
             <div class="w-full h-[70%] flex flex-row justify-between items-center">
                 <general-button :w="'aspect-square'" :h="'h-full'" @click="$emit('close')">X</general-button>
-                <div class="h-full flex items-center bg-white px-[3%] rounded-2xl border-yellow-500 border-2">
-                    <h3 class="text-md press-start w-full text-yellow-500">EMAIL: <span
+                <div class="h-full flex items-center bg-yellow-500 px-[3%] rounded-2xl border-white border-2">
+                    <h3 class="text-md press-start w-full text-white">EMAIL: <span
                             class="italic lg:text-lg text-[.6rem]">{{ user.email }}</span></h3>
                 </div>
             </div>

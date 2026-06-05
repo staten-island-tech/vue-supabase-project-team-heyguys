@@ -19,7 +19,8 @@
 import { Howl, Howler } from 'howler'
 
 const sound = new Howl({
-    src: ['/sounds/explode.mp3']
+    src: ['/sounds/explode.mp3'],
+    volume: 2
 })
 
 const score = ref<number | string>("N/A")
