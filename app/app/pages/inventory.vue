@@ -81,13 +81,11 @@ inventoryStore.inventory.forEach((item:inventoryPart) => {
 })
 
 let filteredItemBoxProps:ComputedRef<itemBoxProp[]> = computed(() => {
-    console.log(currentFilter.value)
     if(currentFilter.value == "All") {
         return itemBoxProps.value
     } else if (currentFilter.value == "Complete Robots") {
         return itemBoxProps.value // placeholder bc we dont have robots
     } else {
-        console.log(itemBoxProps.value.filter((item:itemBoxProp) => item.itemInfo.body_part === currentFilter.value))
         return itemBoxProps.value.filter((item:itemBoxProp) => item.itemInfo.body_part == currentFilter.value)
     }
 })
