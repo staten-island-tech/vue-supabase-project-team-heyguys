@@ -8,8 +8,8 @@
             <MenuButton :url="'/trading'" :title="'Trading'"></MenuButton>
             <MenuButton :url="'/money-game'" :title="'Get Money'"></MenuButton>
         </div>
-        <div class="lg:w-[70%] lg:block hidden h-full text-black bg-slate-200 pt-[20%]">
-            
+        <div class="hidden lg:flex lg:w-[70%] h-full bg-gray-300 items-center justify-end px-[1%]">
+            <div class="w-[80%] h-[80%] bg-black rounded-2xl"></div>
         </div>
     </div>
 </template>
