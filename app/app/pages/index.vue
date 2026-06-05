@@ -8,8 +8,10 @@
             <MenuButton :url="'/trading'" :title="'Trading'"></MenuButton>
             <MenuButton :url="'/money-game'" :title="'Get Money'"></MenuButton>
         </div>
-        <div class="hidden lg:flex lg:w-[70%] h-full bg-gray-300 items-center justify-end">
-            <div class="w-[80%] h-[80%] bg-black"></div>
+        <div class="hidden lg:flex lg:w-[70%] h-full bg-gray-300 items-center justify-end px-[1%]">
+            <img src="/images/w-p.png" class="w-[80%] h-[80%] rounded-2xl transition-all duration-300 transition-ease-in-out hover:rotate-180" @click="goAway()">
+                <h2 class="absolute text-center press-start text-yellow-200 text-2xl"> whalen paradise???? </h2>
+            </img>
         </div>
     </div>
 </template>
@@ -22,6 +24,10 @@ const buttonClasses = computed(() => {
     if (isLargeScreen.value) return ['py-[2%]', 'pl-[2%]', 'w-[60%]']
     else return ['items-center', 'w-full', 'px-auto']
 })
+
+function goAway() {
+    return navigateTo("/whalen-paradise")
+}
 </script>
 
 <style scoped></style>
