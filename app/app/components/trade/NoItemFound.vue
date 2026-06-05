@@ -5,7 +5,15 @@
 </template>
 
 <script setup lang="ts">
+import { Howl, Howler } from 'howler'
 
+const whoop = new Howl({
+    src: ['/sounds/whoo.mp3']
+})
+
+onMounted(() => {
+    whoop.play()
+})
 </script>
 
 <style scoped>
