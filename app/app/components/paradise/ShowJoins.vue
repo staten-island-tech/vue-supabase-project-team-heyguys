@@ -8,6 +8,7 @@
             </div>
         </div>
     </div>
+    
 </template>
 
 <script setup lang="ts">
@@ -19,7 +20,7 @@ async function sampleJoin() {
     const { data, error } = await supabase
     .rpc("join_owned_info")
 
-    joinData.value = data.sort((a:any, b:any) => a.user_id.eLocaleCompare(b.user_id))
+    joinData.value = data.sort((a:any, b:any) => a.user_id.localeCompare(b.user_id))
 }
 
 </script>

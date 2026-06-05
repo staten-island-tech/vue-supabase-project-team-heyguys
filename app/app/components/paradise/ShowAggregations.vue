@@ -8,6 +8,7 @@
             </div>
         </div>
     </div>
+    
 </template>
 
 <script setup lang="ts">
@@ -21,7 +22,7 @@ async function sampleAggregation() {
     const { data, error } = await supabase
     .rpc("get_robot_stat_totals")
 
-    aggregationData.value = data
+    aggregationData.value = data.sort((a:any, b:any) => a.total_stat - b.total_stat)
 }
 </script>
 

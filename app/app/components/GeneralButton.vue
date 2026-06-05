@@ -13,7 +13,7 @@ import { Howl, Howler } from 'howler'
 
 var sound = new Howl({
     src: ['/sounds/click.mp3'],
-    volume: 0.6
+    volume: .8,
 })
 
 defineProps({

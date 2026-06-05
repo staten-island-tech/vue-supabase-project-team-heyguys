@@ -109,8 +109,6 @@ async function rollGacha(numRolls: number, cost: number) {
                 .eq("part_id", existingItem.part_id)
                 .select()
 
-                console.log(error, data)
-
             } else {
 
                 ownedRobotData.push({

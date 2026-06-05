@@ -11,6 +11,7 @@
                 tests are coming up and i cant make this look pretty anymore </h3>
             <paradise-show-aggregations></paradise-show-aggregations>
             <paradise-show-joins></paradise-show-joins>
+            <paradise-show-gsap></paradise-show-gsap>
         </div>
     </div>
 </template>

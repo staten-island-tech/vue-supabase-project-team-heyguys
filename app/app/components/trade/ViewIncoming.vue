@@ -68,7 +68,6 @@ async function linkEverything() {
             })
         }
     })
-    console.log(tradeObjects.value)
 }
 
 async function deleteTrade(tradeObject:TradeObject) {
