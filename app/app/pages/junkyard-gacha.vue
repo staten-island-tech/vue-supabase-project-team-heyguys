@@ -1,6 +1,6 @@
 <template>
     <Transition name="gacha-history">
-        <gacha-rates v-if="showRates" @close="showRates = false"></gacha-rates>
+        <gacha-history v-if="showHistory" @close="showHistory = false"></gacha-history>
     </Transition>
     <div
         class="bg-gradient-to-b from-cyan-950 to-sky-800 fixed h-[86vh] w-full -translate-y-[2%] flex flex-col items-center justify-center">
@@ -26,12 +26,12 @@
                 </div>
             </div>
             <Transition name="result-page">
-                <gacha-results-page v-if="showResults" :results="results" class="my-[1%]">
-                </gacha-results-page>
+                <results-page v-if="showResults" :results="results" class="my-[1%]">
+                </results-page>
             </Transition>
             <div class="h-[10%] w-full flex justify-center items-center">
-                <general-button :w="'w-full lg:w-[75%]'" :h="'h-[90%]'" @click="showRates = true">
-                    VIEW GACHA RATES
+                <general-button :w="'w-full lg:w-[75%]'" :h="'h-[90%]'" @click="showHistory = true">
+                    VIEW GACHA HISTORY
                 </general-button>
             </div>
         </div>
@@ -49,6 +49,9 @@
 </template>
 
 <script setup lang="ts">
+import GachaHistory from '~/components/gacha/GachaHistory.vue'
+import ResultsPage from '~/components/gacha/ResultsPage.vue'
+
 import { getSupabase } from '~/lib/supabaseClient'
 
 const showError = ref<boolean>(false)
@@ -61,7 +64,7 @@ if (!useGachaStore().initialized) {
 
 const showResults = ref<boolean>(false)
 const results = ref<ResultType[]>([])
-const showRates = ref<boolean>(false)
+const showHistory = ref<boolean>(false)
 
 let ownedRobotData: ownedRobotPart[] = []
 
@@ -105,6 +108,8 @@ async function rollGacha(numRolls: number, cost: number) {
                 .eq("user_id", existingItem.user_id)
                 .eq("part_id", existingItem.part_id)
                 .select()
+
+                console.log(error, data)
 
             } else {
 
