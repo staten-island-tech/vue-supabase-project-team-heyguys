@@ -17,7 +17,12 @@
                 </div>
                 <div class="w-[95%] h-[2%] rounded-full bg-yellow-400"></div>
                 <div class="h-full w-full flex flex-wrap flex-row gap-6 items-center justify-center p-2 overflow-y-scroll scrollbar-gutter stable pt-6"> 
-                    <inventory-item-box v-for="item in filteredItemBoxProps" :item="item"/>
+                    <inventory-item-box v-for="item in filteredItemBoxProps" 
+                    :item="item" v-if="filteredItemBoxProps.length > 0"/>
+                    <div class="border-yellow-500 border-2 rounded-2xl w-full h-full flex justify-center items-center"
+                    v-else>
+                        <h2 class="press-start text-black text-center text-2xl">NO ITEMS FOUND</h2>
+                    </div>
                 </div>
             </div>
             <div class="flex flex-col justify-around mb-[-10] w-300px">

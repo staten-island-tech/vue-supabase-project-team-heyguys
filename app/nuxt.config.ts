@@ -21,6 +21,12 @@ export default defineNuxtConfig({
         'bg-white',
       ]
     }
+  },
+  app: {
+    head: {
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      ]
+    }
   }
-
 })

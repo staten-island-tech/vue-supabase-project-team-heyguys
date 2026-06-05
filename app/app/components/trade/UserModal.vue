@@ -18,14 +18,22 @@
         overflow-y-scroll p-[2%]" v-if="viewMode === 'recipient inventory'">
             <h2 class="text-center text-black press-start text-lg lg:text-2xl mb-[3%]">{{ user.email }}'s INVENTORY</h2>
             <trade-user-owned-part v-for="partLink in recipientPartLinks" :isRecipient="true" :partLink="partLink"
-                @next="(part: PartIdLink) => { viewMode = 'sender inventory'; receivePart = part }"></trade-user-owned-part>
+                @next="(part: PartIdLink) => { viewMode = 'sender inventory'; receivePart = part }"
+                v-if="recipientPartLinks.length > 0"></trade-user-owned-part>
+                <div class="border-yellow-500 border-2 rounded-2xl w-full h-full flex justify-center items-center" v-else>
+                    <h2 class="press-start text-black text-center text-2xl">NO ITEMS FOUND</h2>
+                </div>
         </div>
 
         <div class="w-full h-[85%] border-2 border-yellow-500 rounded-2xl bg-white/70 
         overflow-y-scroll p-[2%]" v-else-if="viewMode === 'sender inventory'">
             <h2 class="text-center text-black press-start text-lg lg:text-2xl mb-[3%]">YOUR INVENTORY</h2>
             <trade-user-owned-part v-for="partLink in senderPartLinks" :isRecipient="false" :partLink="partLink"
-                @next="(part: PartIdLink) => { viewMode = 'confirm trade'; sendPart = part }"></trade-user-owned-part>
+                @next="(part: PartIdLink) => { viewMode = 'confirm trade'; sendPart = part }"
+                v-if="senderPartLinks.length > 0"></trade-user-owned-part>
+                <div class="border-yellow-500 border-2 rounded-2xl w-full h-full flex justify-center items-center" v-else>
+                    <h2 class="press-start text-black text-center text-2xl">NO ITEMS FOUND</h2>
+                </div>
         </div>
 
         <div class="w-full h-[85%] border-2 border-yellow-500 rounded-2xl bg-white/70 
