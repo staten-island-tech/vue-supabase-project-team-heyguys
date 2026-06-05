@@ -16,6 +16,12 @@
 </template>
 
 <script setup lang="ts">
+import { Howl, Howler } from 'howler'
+
+const sound = new Howl({
+    src: ['/sounds/explode.mp3']
+})
+
 const score = ref<number | string>("N/A")
 const playing = ref<boolean>(false)
 
@@ -25,6 +31,8 @@ async function lose(playedScore:number) {
     playing.value = false; 
     score.value = playedScore
     user.money += playedScore
+
+    sound.play()
 
     useLoginStore().updateUserData("money", user.money)
 }

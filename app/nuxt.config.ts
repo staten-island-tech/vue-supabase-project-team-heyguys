@@ -21,6 +21,15 @@ export default defineNuxtConfig({
         'bg-white',
       ]
     }
+  },
+  vite: {
+    optimizeDeps: {
+      include: [
+        '@supabase/supabase-js',
+        '@vue/devtools-core',
+        '@vue/devtools-kit',
+        '@vueuse/core',
+      ]
+    }
   }
-
 })

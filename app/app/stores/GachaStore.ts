@@ -1,7 +1,12 @@
 import { defineStore } from 'pinia'
 import { getSupabase } from '../lib/supabaseClient'
+import { Howl, Howler } from 'howler'
 
 const supabase = getSupabase() 
+
+const ecstasy = new Howl({
+    src: ['/sounds/ecstasy.mp3']
+})
 
 export const useGachaStore = defineStore("gacha", {
   state: () => ({
@@ -75,6 +80,10 @@ export const useGachaStore = defineStore("gacha", {
                 pulledRarity = tier
             }
         })
+
+        if(pulledRarity?.max === 1) {
+            ecstasy.play()
+        }
 
         let pieceNumber:number =  Math.floor(Math.random()*(pulledRarity?.pieces.length ?? 0))
         let part = pulledRarity?.pieces[pieceNumber]

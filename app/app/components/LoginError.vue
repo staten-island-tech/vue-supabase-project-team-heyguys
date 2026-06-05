@@ -10,7 +10,24 @@
 </template>
 
 <script setup lang="ts">
+import { useLoginStore } from '#imports'
+import { Howl, Howler } from 'howler'
 
+const whoop = new Howl({
+    src: ['/sounds/whoo.mp3']
+})
+
+onMounted(() => {
+    if(useLoginStore().$state.logInErrorMessage) {
+        whoop.play()
+    }
+})
+
+onUpdated(() => {
+    if(useLoginStore().$state.logInErrorMessage) {
+        whoop.play()
+    }
+})
 </script>
 
 <style scoped></style>

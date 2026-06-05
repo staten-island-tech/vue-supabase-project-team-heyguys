@@ -70,16 +70,6 @@ let ownedRobotData: ownedRobotPart[] = []
 
 const supabase = getSupabase()
 
-/* 
-
-user = ref({
-money: 0
-user_id: "asdfdsaf"
-username: "User_asdfdsa"
-})
-
-*/
-
 async function rollGacha(numRolls: number, cost: number) {
     await supabase
         .from('owned_robot_parts')
