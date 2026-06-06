@@ -110,6 +110,18 @@ export const useGachaStore = defineStore("gacha", {
             rarityName: pulledRarity?.rarityName,
             class: getClass(pulledRarity?.rarityName as string)
         } as ResultType
+    },
+    getRarity(part:robotPart | undefined) {
+        let returnedRarity:(null | string) = null
+        if(part) {
+            this.probabilityTable.forEach((rarity:Rarity) => {
+            if(rarity.pieces.find((piece) => piece.name === part.name)) {
+                returnedRarity = rarity.rarityName
+            }
+        }) 
+        } 
+        if(returnedRarity) return returnedRarity
+        else return "NO VALID RARITY"
     }
 }
 })

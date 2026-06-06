@@ -70,6 +70,17 @@ let ownedRobotData: ownedRobotPart[] = []
 
 const supabase = getSupabase()
 
+async function addToHistory(part_id:string) {
+    const { data, error } = await supabase
+    .from('gacha_history')
+    .insert({
+        "part_id": part_id,
+        "user_id": user.value.user_id
+    })
+
+    if(error) console.error(error.message)
+}
+
 async function rollGacha(numRolls: number, cost: number) {
     await supabase
         .from('owned_robot_parts')
@@ -99,7 +110,6 @@ async function rollGacha(numRolls: number, cost: number) {
             )
 
             if (existingItem) {
-
                 const {data, error} = await supabase
                 .from('owned_robot_parts')
                 .update({
@@ -126,8 +136,8 @@ async function rollGacha(numRolls: number, cost: number) {
                         completed_robot_id: null,
                         quantity: 1
                     })
-                
             }
+            addToHistory(result.part_id)
         }
         showResults.value = true
 

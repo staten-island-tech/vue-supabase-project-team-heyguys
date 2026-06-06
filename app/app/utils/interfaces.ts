@@ -16,6 +16,12 @@ export interface statSpread { // hp = head, arms = attack, body = def, legs = sp
     speed: number
 }
 
+export interface HistoryPull {
+    part_id: string
+    user_id: string
+    timestamp: string
+}
+
 export interface robotPart { // also used for gacha results
     name: string,
     body_part: string,
