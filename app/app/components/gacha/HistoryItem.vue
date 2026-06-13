@@ -15,6 +15,7 @@ const item = props.allItems.find((item) => item.part_id === props.part_id)
 const rarity = ref<string>("")
 
 onMounted(() => {
+    console.log(item)
     rarity.value = useGachaStore().getRarity(item)
 })
 

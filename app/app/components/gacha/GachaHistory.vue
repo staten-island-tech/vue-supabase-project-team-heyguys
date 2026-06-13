@@ -6,7 +6,7 @@
             <general-button :w="'w-[60%]'" :h="'h-full lg:text-lg text-xs'" @click="reverseList()"> SORTED BY {{ sortType}} </general-button>
         </div>
         <div class="h-full w-full flex flex-col-reverse border-2 border-yellow-500 bg-white/60 rounded-2xl my-[1.5%] p-[2%] overflow-y-scroll">
-            <gacha-history-item v-if="dataLoaded" v-for="item in gachaHistory" :part_id="item.part_id" :allItems="allItems"></gacha-history-item>
+            <gacha-history-item v-if="dataLoaded" v-for="item in displayedHistory" :part_id="item.part_id" :allItems="allItems"></gacha-history-item>
         </div>
     </div>
 </template>
@@ -26,14 +26,18 @@ const dataLoaded = ref<boolean>(false)
 const isNewtOld = ref<boolean>(true)
 
 const sortType = computed(() => {
-    if(isNewtOld) return "NEWEST TO OLDEST"
+    if(isNewtOld.value) return "NEWEST TO OLDEST"
     else return "OLDEST TO NEWEST"
+})
+
+const displayedHistory = computed(() => {
+    return isNewtOld.value
+        ? gachaHistory.value
+        : gachaHistory.value.toReversed()
 })
 
 function reverseList() {
     isNewtOld.value = !isNewtOld.value
-    allItems.value = allItems.value.toReversed()
-    console.log(allItems.value)
 }
 
 async function getTableInfo() {
