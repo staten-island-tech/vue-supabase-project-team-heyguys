@@ -27,6 +27,9 @@
                 <button class="bg-white flex border-yellow-500 border-2 text-2xl rounded-lg press-start text-yellow-500 h-min w-full px-5 py-2 pr-10 pl-10 mt-[30px]
                 transition-all ease-in-out hover:bg-yellow-200 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-yellow-300" @click="buildMode = !buildMode"> {{ buildMode ? 'End Build' : 'Build New' }}</button>
                 <div class ="h-full w-full justify-between bg-gray-300 mt-1 rounded-xl">
+                    <div class="flex items-center justify-center w-full h-full">
+                    <BuildMode v-if="buildMode"></BuildMode>
+                    </div>
                        <div class="flex flex-row absolute bottom-8 gap-[2px] items-center w-max">
                     <label for="RobotNames" class="border-2 border-gray-200 rounded-md"></label>
                     <input type="text" id="RobotNames" class="flex w-[190px] h-min bg-white border-2 px-4 py-2 border-yellow-500 rounded-lg  text-black text-sm press-start placeholder:text-black outline-none focus:ring-2 focus:ring-yellow-300" placeholder="Name">
