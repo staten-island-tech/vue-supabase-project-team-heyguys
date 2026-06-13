@@ -12,7 +12,7 @@
             <p class="text-[.7rem]">{{ item.itemInfo.body_part }}</p>
         </inventory-info-box>
         </div>
-        <div class="absolute bottom-1 right-1">
+        <div class="absolute bottom-1 right-1" v-if="buildMode">
             <inventory-mini-button type="add"></inventory-mini-button> <!-- this needs to be a v-if depending on whether build mode is on or not later!! -->
         </div>
     </div>
@@ -21,6 +21,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   item: itemBoxProp
+  buildMode: boolean
 }>()
 
 let isPart = ref<boolean>(false)
@@ -34,6 +35,10 @@ let nameClass = computed(() => {
         return "text-[1rem]"
     } return "text-[1.125rem]"
 })
+
+function handleBuildMode(){
+    console.log('build mode')
+}
 
 </script>
 
