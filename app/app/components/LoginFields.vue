@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-[50%] justify-between items-center">
+    <div class="flex flex-col h-[50%] justify-between items-center w-full">
         <label
             class="input pl-0 flex flex-row items-center bg-white border-yellow-500 border-4 h-[40%] w-[60%] rounded-3xl">
             <svg width="20%" viewBox="0 0 680 400" role="img" xmlns="http://www.w3.org/2000/svg">
@@ -12,7 +12,7 @@
                 <circle cx="340" cy="170" r="62" fill="#efb100" />
                 <ellipse cx="340" cy="340" rx="112" ry="76" fill="#efb100" clip-path="url(#circle-clip)" />
             </svg>
-            <input v-model="loginInput.username" type="text" class="grow press-start text-black text-2xl" placeholder="Username..." />
+            <input v-model="loginInput.email" type="text" class="grow press-start text-black text-md" placeholder="Username..." />
             <!-- CHANGE THIS HERE HERE HERE-->
         </label>
 
@@ -34,20 +34,21 @@
                     <rect x="96" y="10" width="16" height="26" rx="3" fill="#efb100" />
                 </g>
             </svg>
-            <input v-model="loginInput.password" type="text" class="grow press-start text-black text-2xl" placeholder="Password..." />
+            <input v-model="loginInput.password" type="text" class="grow press-start text-black text-md" placeholder="Password..." />
             <!-- CHANGE THIS HERE HERE HERE-->
         </label>
     </div>
 </template>
 
 <script setup lang="ts">
-// before we make an interfaces file
-interface loginData {
-    username: string,
-    password: string
-}
 
-const loginInput = reactive<loginData>({username: '', password: ''})
+const loginStore = useLoginStore()
+
+const loginInput = ref<loginData>({email: "", password: ""})
+
+watch(loginInput.value, () => {
+    loginStore.changeValues(loginInput.value)
+})
 
 </script>
 

@@ -1,0 +1,71 @@
+body_part,name,sprite_url,rarity_val,rarity_name,stat
+
+Head,Metal Sonic,/metal-sonic-head,9,Epic,20
+Left Arm,Metal Sonic,/metal-sonic-left-arm,9,Epic,30
+Right Arm,Metal Sonic,/metal-sonic-right-arm,9,Epic,30
+Body,Metal Sonic,/metal-sonic-body,9,Epic,20
+Left Leg,Metal Sonic,/metal-sonic-left-leg,9,Epic,65
+Right Leg,Metal Sonic,/metal-sonic-right-leg,9,Epic,65
+
+Head,Iron Thorns,/iron-thorns-head,30,Rare,40
+Left Arm,Iron Thorns,/iron-thorns-left-arm,30,Rare,30
+Right Arm,Iron Thorns,/iron-thorns-right-arm,30,Rare,30
+Body,Iron Thorns,/iron-thorns-body,30,Rare,20
+Left Leg,Iron Thorns,/iron-thorns-left-leg,30,Rare,10
+Right Leg,Iron Thorns,/iron-thorns-right-leg,30,Rare,10
+
+Head,Optimus Prime,/optimus-prime-head,1,Legendary,65
+Left Arm,Optimus Prime,/optimus-prime-left-arm,1,Legendary,60
+Right Arm,Optimus Prime,/optimus-prime-right-arm,1,Legendary,60
+Body,Optimus Prime,/optimus-prime-body,1,Legendary,70
+Left Leg,Optimus Prime,/optimus-prime-left-leg,1,Legendary,45
+Right Leg,Optimus Prime,/optimus-prime-right-leg,1,Legendary,45
+
+Head,Metal Mario,/metal-mario-head,30,Rare,30
+Left Arm,Metal Mario,/metal-mario-left-arm,30,Rare,30
+Right Arm,Metal Mario,/metal-mario-right-arm,30,Rare,30
+Body,Metal Mario,/metal-mario-body,30,Rare,30
+Left Leg,Metal Mario,/metal-mario-left-leg,30,Rare,15
+Right Leg,Metal Mario,/metal-mario-right-leg,30,Rare,15
+
+Head,Karen,/karen-head,60,Common,10
+Left Arm,Karen,/karen-left-arm,60,Common,5
+Right Arm,Karen,/karen-right-arm,60,Common,5
+Body,Karen,/karen-body,60,Common,10
+Left Leg,Karen,/karen-left-leg,60,Common,15
+Right Leg,Karen,/karen-right-leg,60,Common,15
+
+Head,Wall-E,/wall-e-head,30,Rare,30
+Left Arm,Wall-E,/wall-e-left-arm,30,Rare,15
+Right Arm,Wall-E,/wall-e-right-arm,30,Rare,15
+Body,Wall-E,/wall-e-body,30,Rare,25
+Left Leg,Wall-E,/wall-e-left-leg,30,Rare,30
+Right Leg,Wall-E,/wall-e-right-leg,30,Rare,30
+
+Head,Iron Giant,/iron-giant-head,9,Epic,60
+Left Arm,Iron Giant,/iron-giant-left-arm,9,Epic,30
+Right Arm,Iron Giant,/iron-giant-right-arm,9,Epic,30
+Body,Iron Giant,/iron-giant-body,9,Epic,65
+Left Leg,Iron Giant,/iron-giant-left-leg,9,Epic,20
+Right Leg,Iron Giant,/iron-giant-right-leg,9,Epic,20
+
+Head,Baymax,/baymax-head,30,Rare,45
+Left Arm,Baymax,/baymax-left-arm,30,Rare,20
+Right Arm,Baymax,/baymax-right-arm,30,Rare,20
+Body,Baymax,/baymax-body,30,Rare,70
+Left Leg,Baymax,/baymax-left-leg,30,Rare,5
+Right Leg,Baymax,/baymax-right-leg,30,Rare,5
+
+Head,Astro Bot,/astro-bot-head,60,Common,15
+Left Arm,Astro Bot,/astro-bot-left-arm,60,Common,10
+Right Arm,Astro Bot,/astro-bot-right-arm,60,Common,10
+Body,Astro Bot,/astro-bot-body,60,Common,15
+Left Leg,Astro Bot,/astro-bot-left-leg,60,Common,25
+Right Leg,Astro Bot,/astro-bot-right-leg,60,Common,25
+
+Head,Moby,/moby-head,60,Common,30
+Left Arm,Moby,/moby-left-arm,60,Common,5
+Right Arm,Moby,/moby-right-arm,60,Common,5
+Body,Moby,/moby-body,60,Common,25
+Left Leg,Moby,/moby-left-leg,60,Common,5
+Right Leg,Moby,/moby-right-leg,60,Common,5

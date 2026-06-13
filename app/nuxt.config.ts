@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   css: ['~/assets/css/main.css'],
   devtools: { enabled: true },
-  
+  ssr: false,
   modules: ['@nuxt/eslint', '@pinia/nuxt', '@nuxtjs/tailwindcss', '@nuxt/icon'],
   runtimeConfig: {
     public: {
@@ -12,4 +12,24 @@ export default defineNuxtConfig({
       supabaseAnonKey: process.env.VITE_SUPABASE_ANON_KEY,
     },
   },
+  tailwindcss: {
+    config: {
+      safelist: [
+        'bg-yellow-300',
+        'bg-purple-300',
+        'bg-sky-300',
+        'bg-white',
+      ]
+    }
+  },
+  vite: {
+    optimizeDeps: {
+      include: [
+        '@supabase/supabase-js',
+        '@vue/devtools-core',
+        '@vue/devtools-kit',
+        '@vueuse/core',
+      ]
+    }
+  }
 })

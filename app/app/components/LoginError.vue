@@ -1,0 +1,33 @@
+<template>
+    <div v-if="useLoginStore().logInErrorMessage" role="alert" class="alert alert-error fixed bottom-[4%] left-[2%]">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+
+        <span class="text-bold press-start">Error: {{ useLoginStore().logInErrorMessage }} </span>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { useLoginStore } from '#imports'
+import { Howl, Howler } from 'howler'
+
+const whoop = new Howl({
+    src: ['/sounds/whoo.mp3']
+})
+
+onMounted(() => {
+    if(useLoginStore().$state.logInErrorMessage) {
+        whoop.play()
+    }
+})
+
+onUpdated(() => {
+    if(useLoginStore().$state.logInErrorMessage) {
+        whoop.play()
+    }
+})
+</script>
+
+<style scoped></style>
