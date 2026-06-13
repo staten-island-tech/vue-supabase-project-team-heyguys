@@ -14,12 +14,16 @@
         </InfoBox>
         </div>
         <div class="absolute bottom-1 right-1">
-            <MiniButton type="add"></MiniButton> <!-- this needs to be a v-if depending on whether build mode is on or not later!! -->
+                <MiniButton type="add"></MiniButton>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+
+function handleBuildMode(){
+    console.log('build mode')
+}
 
 </script>
 
