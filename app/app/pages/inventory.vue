@@ -7,14 +7,14 @@
         </div>
         <div class="flex flex-col justify-between items-center bg-slate-300/60 z-10 w-[80%] h-[80%] rounded-3xl border-yellow-500 border-2 p-[1%]">
             <div class = "flex flex-row justify-between w-full h-full">
-            <div class = "inventory h-[65vh] w-[40vw] rounded-2xl flex justify-start flex-col items-center bg-gray-100 mx-[1%] mb-2">
+            <div class = "inventory h-[65vh] w-[45vw] rounded-2xl flex justify-start flex-col items-center bg-gray-100 mx-[1%] mb-2">
                 <div class ="menu flex flex-1 flex-col justify-between items-center space-x-0">
                 <inventory-filter-menu :filters="filters" 
                 @use-filter="(newFilter) => currentFilter = newFilter"
                 />
                 </div>
                 <div class="w-[95%] h-[2%] rounded-full bg-yellow-400"></div>
-                <div class="h-full w-full flex flex-wrap flex-row gap-6 items-center justify-center p-2 overflow-y-scroll scrollbar-gutter stable pt-6"> 
+                <div class="h-full w-full flex flex-wrap flex-row gap-5 items-center justify-center p-2 overflow-y-scroll scrollbar-gutter stable pt-6"> 
                     <inventory-item-box v-for="item in filteredItemBoxProps" 
                     :item="item" :buildMode="buildMode" v-if="filteredItemBoxProps.length > 0"/>
                     <div class="border-yellow-500 border-2 rounded-2xl w-full h-full flex justify-center items-center"
@@ -25,7 +25,7 @@
             </div>
             <div class="flex flex-col justify-around mb-[-10] w-300px">
                 <button class="bg-white flex border-yellow-500 border-2 text-2xl rounded-lg press-start text-yellow-500 h-min w-full px-5 py-2 pr-10 pl-10 mt-[30px]
-                transition-all ease-in-out hover:bg-yellow-200 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-yellow-300" @click="buildMode = !buildMode">Build New</button>
+                transition-all ease-in-out hover:bg-yellow-200 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-yellow-300" @click="buildMode = !buildMode"> {{ buildMode ? 'End Build' : 'Build New' }}</button>
                 <div class ="h-full w-full justify-between bg-gray-300 mt-1 rounded-xl">
                        <div class="flex flex-row absolute bottom-8 gap-[2px] items-center w-max">
                     <label for="RobotNames" class="border-2 border-gray-200 rounded-md"></label>

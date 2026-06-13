@@ -8,7 +8,7 @@
         <div class="flex flex-col items-center bg-slate-300/60 z-10 w-[80%] h-[75%] rounded-3xl border-white border-2 p-[1%] 
         overflow-y-scroll gap-4">
             <h3 class="press-start italic text-center text-purple-700"> some stuff i forgot but is in the rubric so i have to show you; 
-                tests are coming up and i cant make this look pretty anymore </h3>
+                tests are coming up and i cant make this look pretty anymore (humd here im not sure why this even exists in hindsight) </h3>
             <paradise-show-aggregations></paradise-show-aggregations>
             <paradise-show-joins></paradise-show-joins>
             <paradise-show-gsap></paradise-show-gsap>

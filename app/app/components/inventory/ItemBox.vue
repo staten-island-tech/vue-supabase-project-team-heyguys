@@ -12,8 +12,15 @@
             <p class="text-[.7rem]">{{ item.itemInfo.body_part }}</p>
         </inventory-info-box>
         </div>
-        <div class="absolute bottom-1 right-1" v-if="buildMode">
-            <inventory-mini-button type="add"></inventory-mini-button> <!-- this needs to be a v-if depending on whether build mode is on or not later!! -->
+        <div class="absolute bottom-1 right-1" v-if="buildMode && isPart && item.inventoryPart.completed_robot_id === null">
+            <inventory-mini-button type="add"></inventory-mini-button> 
+        </div>
+        <div class="absolute bottom-1 right-1" v-if="buildMode && isPart && item.inventoryPart.completed_robot_id !== null">
+            <inventory-mini-button type="remove"></inventory-mini-button> 
+        </div>
+        <div class="absolute bottom-1 flex-col right-1" v-if="!buildMode && isCompletedRobot">
+            <inventory-mini-button type="delete"></inventory-mini-button> 
+            <inventory-mini-button type="edit"></inventory-mini-button>
         </div>
     </div>
 </template>
@@ -24,11 +31,13 @@ const props = defineProps<{
   buildMode: boolean
 }>()
 
-let isPart = ref<boolean>(false)
+const isPart = computed(() => {
+  return props.item.inventoryPart.part_id !== null
+})
 
-if(props.item.itemInfo.part_id !== null) {
-    isPart.value = true
-}
+const isCompletedRobot = computed(() => {
+  return props.item.inventoryPart.part_id === null
+})
 
 let nameClass = computed(() => {
     if(props.item.itemInfo.name.length > 12) {
