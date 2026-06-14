@@ -62,6 +62,7 @@ export const useInventoryStore = defineStore('inventory', {
           robot_name: robotName,
         })
         .select() 
+        .single() //return as obj 
 
     if (error) {
     console.error('Error creating robot:', error)
@@ -70,8 +71,53 @@ export const useInventoryStore = defineStore('inventory', {
     )
   }
   return data as completedRobot },
-    
 
+  async updateParts(
+    item: itemBoxProp,
+    robotId: string,
+  ) {
+    const supabase = getSupabase()
+    const part = item.inventoryPart
+
+    if (!part.part_id) {
+        throw new Error('Cant use a completed robot as a part!')
+      }
+
+      if (part.completed_robot_id !== null) {
+        throw new Error('This part already belongs to a robot!')
+      }
+
+    if (part.quantity > 1) {
+      const { error: error } = await supabase //decreases quantity of part by 1
+        .from('owned_robot_parts')
+        .update({
+          quantity: part.quantity - 1,
+        })
+        .eq('uuid', part.uuid)
+
+      if (error) throw error
+
+      const { error: error } = await supabase //inserts new row for part with completed_robot_id to update
+        .from('owned_robot_parts')
+        .insert({
+          part_id: part.part_id,
+          user_id: part.user_id,
+          completed_robot_id: robotId,
+          quantity: 1,
+        })
+
+      if (error) throw error
+    } else {
+      const { error } = await supabase //updates part row to have completed_robot_id to update
+        .from('owned_robot_parts')
+        .update({
+          completed_robot_id: robotId,
+        })
+        .eq('uuid', part.uuid)
+
+      if (error) throw error
+    }
+  },
     
     async initialize() {
             await this.fetchParts()
