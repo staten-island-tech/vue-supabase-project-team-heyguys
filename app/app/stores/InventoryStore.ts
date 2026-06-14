@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import {getSupabase} from '../lib/supabaseClient'
 import { useLoginStore, type completedRobot } from '#imports'
-import { useGachaStore } from '#imports'
 
 export const useInventoryStore = defineStore('inventory', {
     state: () => ({
@@ -26,34 +25,35 @@ export const useInventoryStore = defineStore('inventory', {
                 })
             } 
         },
-        async fetchCompletedRobots() {
-            const supabase = getSupabase()
-            const user = await useLoginStore().getUserData()
-            
-            const { data, error } = await supabase
-                .from('complete_robots')
-                .select('*')
 
-            if (error) {
-                console.error('Error fetching complete robots:', error)
-            } else {
-                let userRobots = data.filter((robot:dbRobot) => robot.user_id === user.user_id) ?? []
-                userRobots.forEach((robot:dbRobot) => {
-                    this.inventory.push({
-                        uuid: robot.uuid,
-                        user_id: robot.user_id,
-                        part_id: null, // string for parts, null for robots
-                        completed_robot_id: null,
-                        quantity: 1
-                    } as inventoryPart)
-                })
-            } 
-        },
+    async fetchCompletedRobots() {
+    const supabase = getSupabase()
+    const user = await useLoginStore().getUserData()
 
-        async initialize() {
+    const { data, error } = await supabase
+        .from('complete_robots')
+        .select('*')
+        .eq('user_owned', user.user_id)
+
+    if (error) {
+        console.error('Error fetching complete robots:', error)
+        return
+    }
+
+    data?.forEach((robot: completedRobot) => {
+        this.inventory.push({
+        uuid: robot.completed_robot_id,
+        user_id: robot.user_owned,
+        part_id: null,
+        completed_robot_id: robot.completed_robot_id,
+        quantity: 1,
+        robot_name: robot.robot_name,
+    } as inventoryPart)
+  })},
+
+    async initialize() {
             await this.fetchParts()
             await this.fetchCompletedRobots()
-
             this.initialized = true
         }
     },

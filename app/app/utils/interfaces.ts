@@ -42,10 +42,9 @@ export interface robotSet { // robots from the db NOT CHANGED BY USER
 }
 
 export interface completedRobot { // a robot you build
-    user_id: string
-    part_id: null
-    completed_robot_id: null,
-    quantity: null
+    user_owned: string
+    completed_robot_id: string,
+    robot_name: string
 }
 
 export interface Rarity {
