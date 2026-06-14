@@ -37,6 +37,9 @@
                 transition-all ease-in-out hover:bg-green-400 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-green-300">{{ savingRobot ? 'Saving...' : 'Done' }}</button>
                        </form>
                 </div>
+            <p v-if="buildError" class="absolute bottom-1 text-xs text-red-600">
+                 {{ buildError }}
+                </p>
         
             </div>
             </div>
