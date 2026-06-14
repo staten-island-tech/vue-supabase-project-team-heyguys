@@ -34,7 +34,7 @@
                     <label for="RobotNames" class="border-2 border-gray-200 hidden">Robot Name</label>
                     <input type="text" id="RobotNames" v-model.trim="robotName" class="ml-2 flex w-[190px] h-min bg-white border-2 px-4 py-2 border-yellow-500 rounded-lg  text-black text-sm press-start placeholder:text-black outline-none focus:ring-2 focus:ring-yellow-300" placeholder="Name">
                     <button type="submit" :disabled="savingRobot || !completedList || !robotName.trim()" class= "bg-green-300 flex border-green-500 border-2 text-sm rounded-lg press-start text-white h-min w-min px-4 py-2
-                transition-all ease-in-out hover:bg-green-400 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-green-300">{{ savingRobot ? 'Saving...' : 'Done' }}</button>
+                transition-all ease-in-out hover:bg-green-400 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-green-300">{{ savingRobot ? 'loading' : 'Done' }}</button>
                        </form>
                 </div>
             <p v-if="buildError" class="absolute bottom-1 text-xs text-red-600">
