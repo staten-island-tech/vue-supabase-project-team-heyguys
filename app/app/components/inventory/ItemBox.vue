@@ -13,7 +13,7 @@
         </inventory-info-box>
         </div>
         <div class="absolute bottom-1 right-1" v-if="buildMode && isPart && item.inventoryPart.completed_robot_id === null">
-            <inventory-mini-button type="add" @click="handleBuildMode"></inventory-mini-button> 
+            <inventory-mini-button type="add" @click="emit('addPart', item)"></inventory-mini-button> 
         </div>
         <div class="absolute bottom-1 right-1" v-if="buildMode && isPart && item.inventoryPart.completed_robot_id !== null">
             <inventory-mini-button type="remove"></inventory-mini-button> 
@@ -48,6 +48,10 @@ let nameClass = computed(() => {
 function handleBuildMode(){
     console.log('build mode')
 }
+
+const emit = defineEmits<{addPart: [item: itemBoxProp]
+removePart: [item: itemBoxProp]
+}>()
 
 </script>
 

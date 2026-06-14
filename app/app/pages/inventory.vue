@@ -16,7 +16,7 @@
                 <div class="w-[95%] h-[2%] rounded-full bg-yellow-400"></div>
                 <div class="h-full w-full flex flex-wrap flex-row gap-5 items-center justify-center p-2 overflow-y-scroll scrollbar-gutter stable pt-6"> 
                     <inventory-item-box v-for="item in filteredItemBoxProps" 
-                    :item="item" :buildMode="buildMode" v-if="filteredItemBoxProps.length > 0"/>
+                    :item="item" :buildMode="buildMode" @add-part="addPartToRobot" v-if="filteredItemBoxProps.length > 0"/>
                     <div class="border-yellow-500 border-2 rounded-2xl w-full h-full flex justify-center items-center"
                     v-else>
                         <h2 class="press-start text-black text-center text-2xl">NO ITEMS FOUND</h2>
@@ -28,7 +28,7 @@
                 transition-all ease-in-out hover:bg-yellow-200 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-yellow-300" @click="buildMode = !buildMode"> {{ buildMode ? 'End Build' : 'Build New' }}</button>
                 <div class ="h-full w-full justify-between bg-gray-300 mt-1 rounded-xl">
                     <div class="flex items-center justify-center w-full h-full">
-                    <BuildMode v-if="buildMode"></BuildMode>
+                    <BuildMode v-if="buildMode" :selected-parts="selectedParts"></BuildMode>
                     </div>
                        <div v-if="buildMode" class="flex flex-row absolute bottom-8 gap-[2px] items-center w-max">
                     <label for="RobotNames" class="border-2 border-gray-200 rounded-md"></label>
