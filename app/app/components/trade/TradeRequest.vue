@@ -5,13 +5,13 @@
         <div class="lg:w-[80%] w-full h-[90%] flex flex-row justify-around items-center">
             <div class="bg-sky-800 h-[90%] aspect-square rounded-2xl border-blue-950 border-4 flex flex-row justify-around items-center">
                 <div class="w-[80%] aspect-square bg-white text-black text-[.6rem] break-all">
-                    {{ tradeObject.offerPart?.name }}'s {{ tradeObject.offerPart?.body_part }}
+                    <img :src="tradeObject.offerPart?.sprite_url" :alt="tradeObject.offerPart?.name" class="w-full h-full object-contain">
                 </div>
             </div>
             <h3 class="text-black press-start lg:text-xl text-md text-center"> FOR YOUR </h3>
             <div class="bg-yellow-400 border- h-[90%] aspect-square rounded-2xl border-yellow-500 border-4 flex flex-row justify-around items-center">
                 <div class="w-[80%] aspect-square bg-white text-black text-[.6rem] break-all">
-                    {{ tradeObject.requestPart?.name }}'s {{ tradeObject.requestPart?.body_part }}
+                    <img :src="tradeObject.requestPart?.sprite_url" :alt="tradeObject.requestPart?.name" class="w-full h-full object-contain">
                 </div>
             </div>
 
