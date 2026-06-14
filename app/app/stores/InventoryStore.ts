@@ -119,6 +119,15 @@ export const useInventoryStore = defineStore('inventory', {
     }
   },
 
+    async refreshInventory() {
+      this.inventory = []
+
+      await this.fetchParts()
+      await this.fetchCompletedRobots()
+
+      this.initialized = true
+    },
+
   async buildRobot(
       robotName: string,
       selectedParts: itemBoxProp[],
@@ -141,6 +150,7 @@ export const useInventoryStore = defineStore('inventory', {
           robot.completed_robot_id,
         )
       }
+      await this.refreshInventory()
       return robot
     },
     
