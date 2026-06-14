@@ -13,7 +13,7 @@ const props = defineProps<{
 }>()
 
 const symbol = computed(() => {
-  return props.type === 'add' ? '+' : props.type === 'remove' ? '-' : props.type === 'edit' ? '🛠' : '🗑'
+  return props.type === 'add' ? '+' : props.type === 'remove' ? '-' : props.type === 'edit' ? '🛠' : 'X'
 })
 
 const buttonClasses = computed(() => {
