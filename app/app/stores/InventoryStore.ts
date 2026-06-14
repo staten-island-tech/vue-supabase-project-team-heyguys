@@ -51,10 +51,32 @@ export const useInventoryStore = defineStore('inventory', {
     } as inventoryPart)
   })},
 
+    async createRobotRow(robotName: string): Promise<completedRobot> {
+      const supabase = getSupabase()
+      const user = await useLoginStore().getUserData()
+
+      const { data, error } = await supabase
+        .from('complete_robots')
+        .insert({
+          user_owned: user.user_id,
+          robot_name: robotName,
+        })
+        .select() 
+
+    if (error) {
+    console.error('Error creating robot:', error)
+    throw new Error(
+      error?.message ?? 'Could not create robot.',
+    )
+  }
+  return data as completedRobot },
+    
+
+    
     async initialize() {
             await this.fetchParts()
             await this.fetchCompletedRobots()
             this.initialized = true
         }
-    },
-}) 
+    }
+})  
