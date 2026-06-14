@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-full w-full flex-col items-center justify-center">
+  <div class="flex h-full w-full flex-col items-center justify-center scale-110">
 
     <div class="flex h-24 w-24 items-center justify-center border border-gray-300 bg-white">
       <img
@@ -10,7 +10,7 @@
     </div>
 
     <div class="flex flex-row">
-      <div class="flex h-24 w-8 items-center justify-center border border-gray-300 bg-white">
+      <div class="flex h-24 w-12 items-center justify-center border border-gray-300 bg-white">
         <img
         v-if="selectedParts['Left Arm']" :src="selectedParts['Left Arm'].itemInfo.sprite_url"
           alt="Left arm"
@@ -26,7 +26,7 @@
         >
       </div>
 
-      <div class="flex h-24 w-8 items-center justify-center border border-gray-300 bg-white">
+      <div class="flex h-24 w-12 items-center justify-center border border-gray-300 bg-white">
         <img
           v-if="selectedParts['Right Arm']" :src="selectedParts['Right Arm'].itemInfo.sprite_url"
           alt="Right arm"
@@ -37,7 +37,7 @@
 
 
     <div class="flex flex-row">
-      <div class="flex h-24 w-8 items-center justify-center border border-gray-300 bg-white">
+      <div class="flex h-24 w-12 items-center justify-center border border-gray-300 bg-white">
         <img          
         v-if="selectedParts['Left Leg']" :src="selectedParts['Left Leg'].itemInfo.sprite_url"
           alt="Left leg"
@@ -45,7 +45,7 @@
         >
       </div>
 
-      <div class="flex h-24 w-8 items-center justify-center border border-gray-300 bg-white">
+      <div class="flex h-24 w-12 items-center justify-center border border-gray-300 bg-white">
         <img
           v-if="selectedParts['Right Leg']" :src="selectedParts['Right Leg'].itemInfo.sprite_url"
           alt="Right leg"
