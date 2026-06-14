@@ -106,14 +106,15 @@ async function rollGacha(numRolls: number, cost: number) {
             const existingItem = ownedRobotData.find(
                 (item: ownedRobotPart) =>
                     item.part_id === result.part_id &&
-                    item.user_id === user.value.user_id
+                    item.user_id === user.value.user_id &&
+                    item.completed_robot_id === null
             )
 
             if (existingItem) {
                 const {data, error} = await supabase
                 .from('owned_robot_parts')
                 .update({
-                    ["quantity"]: existingItem.quantity++
+                    ["quantity"]: existingItem.quantity+ 1
                 })
                 .eq("user_id", existingItem.user_id)
                 .eq("part_id", existingItem.part_id)
@@ -143,6 +144,7 @@ async function rollGacha(numRolls: number, cost: number) {
 
         user.value.money -= cost
         useLoginStore().updateUserData("money", user.value.money)
+        await useInventoryStore().refreshInventory()
     } else showError.value = true
 }
 

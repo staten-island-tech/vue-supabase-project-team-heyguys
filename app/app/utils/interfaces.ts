@@ -42,10 +42,16 @@ export interface robotSet { // robots from the db NOT CHANGED BY USER
 }
 
 export interface completedRobot { // a robot you build
-    user_id: string
-    part_id: null
-    completed_robot_id: null,
-    quantity: null
+    user_owned: string
+    completed_robot_id: string,
+    robot_name: string
+}
+
+export interface completedRobotInfo {
+  part_id: null
+  name: string
+  body_part: 'Complete Robots'
+  sprite_url: string
 }
 
 export interface Rarity {
@@ -81,6 +87,7 @@ export interface inventoryPart { // for both parts and robots in inventory
     part_id: string | null, // string for parts, null for robots
     completed_robot_id: string | null,
     quantity: number
+    robot_name?: string // only for completed robots
 }
 
 export interface dbRobot {
@@ -90,7 +97,7 @@ export interface dbRobot {
 
 export interface itemBoxProp {
     inventoryPart: inventoryPart,
-    itemInfo: robotPart
+    itemInfo: robotPart | completedRobotInfo
 }
 
 export interface filter {
