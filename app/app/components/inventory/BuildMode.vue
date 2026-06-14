@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-full w-full flex-col items-center justify-center scale-110">
+  <div class="flex h-full w-full flex-col items-center justify-center">
 
     <div class="flex h-24 w-24 items-center justify-center border border-gray-300 bg-white">
       <img
@@ -35,7 +35,6 @@
       </div>
     </div>
 
-
     <div class="flex flex-row">
       <div class="flex h-24 w-12 items-center justify-center border border-gray-300 bg-white">
         <img          
@@ -53,7 +52,10 @@
         >
       </div>
     </div>
+    
+    <RobotStatChart :stats="stats" :max-value="100" />
   </div>
+  
 </template>
 
 <script setup lang="ts">
@@ -68,6 +70,18 @@ type RobotSlot =
 const props = defineProps<{
   selectedParts: Record<RobotSlot, itemBoxProp | null> //same logic as before in inventory.vue
 }>()
+
+function getStat(item: itemBoxProp | null): number {
+  if (!item) return 0
+  return 'stat' in item.itemInfo ? item.itemInfo.stat : 0
+}
+
+const stats = computed<statSpread>(() => ({
+  hp: getStat(props.selectedParts.Head),
+  attack: getStat(props.selectedParts['Left Arm']) + getStat(props.selectedParts['Right Arm']),
+  defense: getStat(props.selectedParts.Body),
+  speed: getStat(props.selectedParts['Left Leg']) + getStat(props.selectedParts['Right Leg']),
+}))
 
 
 </script>
