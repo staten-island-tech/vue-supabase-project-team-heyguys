@@ -1,11 +1,20 @@
 <template>
     <button class="aspect-square border-2 w-[full] rounded-lg px-1 font-black text-xs text-white
                 ease-in-out duration-300 hover:-translate-y-[2%] active:translate-y-[2%]" 
-                :class="buttonClasses"> 
+                :class="buttonClasses"
+    @click="sound.play()"> 
                 {{ symbol }} </button>
 </template>
 
 <script setup lang="ts">
+
+import { Howl, Howler } from 'howler'
+
+var sound = new Howl({
+    src: ['/sounds/click.mp3'],
+    volume: .2,
+})
+
 import { computed } from 'vue'
 
 const props = defineProps<{

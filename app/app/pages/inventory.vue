@@ -24,8 +24,8 @@
                 </div>
             </div>
             <div class="flex flex-col justify-around mb-[-10] w-300px">
-                <button class="bg-white flex border-yellow-500 border-2 text-2xl rounded-lg press-start text-yellow-500 h-min w-full px-5 pr-10 pl-10
-                transition-all ease-in-out hover:bg-yellow-200 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-yellow-300" @click="buildMode = !buildMode"> {{ buildMode ? 'End Build' : 'Build New' }}</button>
+                <general-button :h="''" :w="''" class="bg-white flex border-yellow-500 border-2 text-2xl rounded-lg press-start text-yellow-500 h-min w-full px-5 pr-10 pl-10
+                transition-all ease-in-out hover:bg-yellow-200 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-yellow-300" @click="buildMode = !buildMode"> {{ buildMode ? 'End Build' : 'Build New' }}</general-button>
                 <div class ="h-full w-full justify-between bg-gray-300 mt-1 rounded-xl">
                     <div class="flex items-center justify-center w-full h-full">
                     <InventoryBuildMode v-if="buildMode" :selected-parts="selectedParts"></InventoryBuildMode>
@@ -33,8 +33,10 @@
                        <form v-if="buildMode" @submit.prevent="confirmRobotBuild" class="flex flex-row absolute bottom-8 gap-[2px] items-center w-max">
                     <label for="RobotNames" class="border-2 border-gray-200 hidden">Robot Name</label>
                     <input type="text" id="RobotNames" v-model.trim="robotName" class="ml-2 flex w-[190px] h-min bg-white border-2 px-4 py-2 border-yellow-500 rounded-lg  text-black text-sm press-start placeholder:text-black outline-none focus:ring-2 focus:ring-yellow-300" placeholder="Name">
-                    <button type="submit" :disabled="savingRobot || !completedList || !robotName.trim()" class= "bg-green-300 flex border-green-500 border-2 text-sm rounded-lg press-start text-white h-min w-min px-4 py-2
-                transition-all ease-in-out hover:bg-green-400 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-green-300">{{ savingRobot ? 'loading' : 'Done' }}</button>
+                    <general-button :w="''" :h="''" type="submit" :disabled="savingRobot || !completedList || !robotName.trim()" class="bg-green-300 flex border-green-500 border-2 text-sm rounded-lg press-start text-white h-min w-min px-4 py-2
+                transition-all ease-in-out hover:bg-green-400 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-green-300"
+                >{{ savingRobot ? 'loading' : 'Done' }}
+              </general-button>
                        </form>
                 </div>
             <p v-if="buildError" class="absolute bottom-1 text-xs text-red-600">
@@ -54,10 +56,10 @@ const buildMode = ref<boolean>(false)
 const filters:filter[] = [
     {displayName: "All", filterProp: "All"},
     {displayName: "Heads", filterProp: "Head"},
-    {displayName: "R.Legs", filterProp: "Right Leg"},
     {displayName: "L. Legs", filterProp: "Left Leg"},
-    {displayName: "R. Arms", filterProp: "Right Arm"},
+    {displayName: "R.Legs", filterProp: "Right Leg"},
     {displayName: "L. Arms", filterProp: "Left Arm"},
+    {displayName: "R. Arms", filterProp: "Right Arm"},
     {displayName: "Bodies", filterProp: "Body"},
     {displayName: "Robots", filterProp: "Complete Robots"},
 ]

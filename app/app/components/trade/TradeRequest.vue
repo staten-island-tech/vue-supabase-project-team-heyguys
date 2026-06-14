@@ -4,13 +4,15 @@
 
         <div class="lg:w-[80%] w-full h-[90%] flex flex-row justify-around items-center">
             <div class="bg-sky-800 h-[90%] aspect-square rounded-2xl border-blue-950 border-4 flex flex-row justify-around items-center">
-                <div class="w-[80%] aspect-square bg-white text-black text-[.6rem] break-all">
+                <div class="w-[80%] aspect-square text-black text-[.6rem] break-all"
+                @mouseover="currentFocus=calculateFocus(tradeObject.offerPart!)">
                     <img :src="tradeObject.offerPart?.sprite_url" :alt="tradeObject.offerPart?.name" class="w-full h-full object-contain">
                 </div>
             </div>
             <h3 class="text-black press-start lg:text-xl text-md text-center"> FOR YOUR </h3>
             <div class="bg-yellow-400 border- h-[90%] aspect-square rounded-2xl border-yellow-500 border-4 flex flex-row justify-around items-center">
-                <div class="w-[80%] aspect-square bg-white text-black text-[.6rem] break-all">
+                <div class="w-[80%] aspect-square text-black text-[.6rem] break-all"
+                @mouseover="currentFocus=calculateFocus(tradeObject.requestPart!)">
                     <img :src="tradeObject.requestPart?.sprite_url" :alt="tradeObject.requestPart?.name" class="w-full h-full object-contain">
                 </div>
             </div>
@@ -29,11 +31,27 @@
             </div>
 
         </div>
+        <div v-if="currentFocus" class="alert alert-error fixed bottom-[4%] left-[2%] press-start">
+            You just hovered over: {{ currentFocus }}
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 const emit = defineEmits(['delete', 'confirm'])
+const currentFocus = ref<string>('')
+
+function clearFocus() {
+    currentFocus.value = ''
+}
+
+function calculateFocus(part:robotPart) {
+    setTimeout(clearFocus, 500);
+    currentFocus.value = ''
+    if(part.name && part.body_part) {
+        return `${part.name}'s ${part.body_part}`
+    } return ''
+}
 
 defineProps<{tradeObject: TradeObject}>()
 </script>

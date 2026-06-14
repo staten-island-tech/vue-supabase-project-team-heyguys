@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex justify-center mt-4">
+  <div class="w-full flex justify-center mt-0">
     <svg
       ref="svgRef"
       :viewBox="`0 0 ${width} ${height}`"
@@ -36,7 +36,7 @@ const props = withDefaults(
 )
 
 const width = 220
-const height = 110
+const height = 90
 const margin = { top: 10, right: 6, bottom: 16, left: 6 }
 
 const svgRef = ref<SVGSVGElement | null>(null)

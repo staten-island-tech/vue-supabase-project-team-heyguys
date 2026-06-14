@@ -17,7 +17,7 @@ const emit = defineEmits(["lose"])
 const score = ref<number>(0)
 
 let width = ref<number>(30)
-let left = ref<number>(5)
+let left = ref<number>(Math.random()*65)
 
 function handleInput() {
     let timerBarPlace:string = window.getComputedStyle(timerBar.value!).left

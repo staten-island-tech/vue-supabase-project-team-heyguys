@@ -3,7 +3,7 @@
         <div class="h-[85%] w-full flex flex-col justify-start items-center py-[1%]">
             <trade-request v-for="tradeObject in filteredTradeObjects"
             :tradeObject="tradeObject" v-if="tradeObjects.length > 0"
-            @delete="(deleteEl:TradeObject) => deleteTrade(deleteEl)"
+            @delete="(deleteEl:TradeObject) => deleteTrade(deleteEl, true)"
             @confirm="(tradeObject:TradeObject) => confirmTrade(tradeObject)"
             ></trade-request>
             <div class="press-start h-full w-full border-2 border-yellow-500 rounded-2xl flex items-center mx-[5%]" v-else>
@@ -25,6 +25,18 @@ import { getSupabase } from '~/lib/supabaseClient'
 const tradeObjects = ref<TradeObject[]>([])
 
 const pageNum:Ref<number> = ref(1)
+
+import { Howl, Howler } from 'howler'
+
+var soundAccept = new Howl({
+    src: ['/sounds/highClick.mp3'],
+    volume: .8,
+})
+
+var soundDecline = new Howl({
+    src: ['/sounds/explode.mp3'],
+    volume: .8,
+})
 
 defineProps({
     requests: {
@@ -70,7 +82,8 @@ async function linkEverything() {
     })
 }
 
-async function deleteTrade(tradeObject:TradeObject) {
+async function deleteTrade(tradeObject:TradeObject, fromClick:boolean) {
+    if(fromClick) soundDecline.play()
     const supabase = getSupabase()
     const { data, error } = await supabase
     .from("trades")
@@ -86,6 +99,7 @@ async function deleteTrade(tradeObject:TradeObject) {
 }
 
 async function confirmTrade(tradeObject:TradeObject) {
+    soundAccept.play()
     const ownedPartData:ownedRobotPart[] = await getTableData('owned_robot_parts')
     const supabase = getSupabase()
 
@@ -94,10 +108,10 @@ async function confirmTrade(tradeObject:TradeObject) {
         !(ownedPartData.find((ownedPart) => ownedPart.uuid === tradeObject.requestOwnedPart?.uuid)) // if you dont have that part anymore for whatever reason
     ) {
         console.log("ERROR: This trade cannot be processed.")
-        await deleteTrade(tradeObject)
+        await deleteTrade(tradeObject, false)
         return
     } else {
-        deleteTrade(tradeObject)
+        deleteTrade(tradeObject, false)
         const offerPart:ownedRobotPart = ownedPartData.find((ownedPart:ownedRobotPart) => ownedPart.uuid === tradeObject.offerOwnedPart?.uuid)!
         const requestPart:ownedRobotPart = ownedPartData.find((ownedPart:ownedRobotPart) => ownedPart.uuid === tradeObject.requestOwnedPart?.uuid)!
         
