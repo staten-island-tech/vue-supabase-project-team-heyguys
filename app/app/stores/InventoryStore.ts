@@ -97,7 +97,7 @@ export const useInventoryStore = defineStore('inventory', {
 
       if (decreaseError) throw decreaseError
 
-      const { error: insertError } = await supabase //inserts new row for part with completed_robot_id to update
+      const { error: insertError } = await supabase // Create a separate row for the singular item that you put in the robot :)
         .from('owned_robot_parts')
         .insert({
           part_id: part.part_id,
@@ -108,7 +108,7 @@ export const useInventoryStore = defineStore('inventory', {
 
       if (insertError) throw insertError
     } else {
-      const { error } = await supabase //updates part row to have completed_robot_id to update
+      const { error } = await supabase 
         .from('owned_robot_parts')
         .update({
           completed_robot_id: robotId,
@@ -118,6 +118,31 @@ export const useInventoryStore = defineStore('inventory', {
       if (error) throw error
     }
   },
+
+  async buildRobot(
+      robotName: string,
+      selectedParts: itemBoxProp[],
+    ) {
+      const finalname = robotName.trim() //remove white spacing from the name
+      if (!finalname) {
+        throw new Error('Please enter a robot name!')
+      }
+
+      if (selectedParts.length !== 6) {
+        throw new Error(
+          'You need one of every part to build a robot!',
+        )
+      }
+      const robot = await this.createRobotRow(finalname)
+
+      for (const part of selectedParts) {
+        await this.updateParts(
+          part,
+          robot.completed_robot_id,
+        )
+      }
+      return robot
+    },
     
     async initialize() {
             await this.fetchParts()
