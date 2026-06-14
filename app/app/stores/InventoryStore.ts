@@ -88,16 +88,16 @@ export const useInventoryStore = defineStore('inventory', {
       }
 
     if (part.quantity > 1) {
-      const { error: error } = await supabase //decreases quantity of part by 1
+      const { error: decreaseError } = await supabase //decreases quantity of part by 1
         .from('owned_robot_parts')
         .update({
           quantity: part.quantity - 1,
         })
         .eq('uuid', part.uuid)
 
-      if (error) throw error
+      if (decreaseError) throw decreaseError
 
-      const { error: error } = await supabase //inserts new row for part with completed_robot_id to update
+      const { error: insertError } = await supabase //inserts new row for part with completed_robot_id to update
         .from('owned_robot_parts')
         .insert({
           part_id: part.part_id,
@@ -106,7 +106,7 @@ export const useInventoryStore = defineStore('inventory', {
           quantity: 1,
         })
 
-      if (error) throw error
+      if (insertError) throw insertError
     } else {
       const { error } = await supabase //updates part row to have completed_robot_id to update
         .from('owned_robot_parts')
