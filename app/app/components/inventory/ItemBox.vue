@@ -12,11 +12,11 @@
             <p class="text-[.7rem]">{{ item.itemInfo.body_part }}</p>
         </inventory-info-box>
         </div>
-        <div class="absolute bottom-1 right-1" v-if="buildMode && isPart && item.inventoryPart.completed_robot_id === null">
+        <div class="absolute bottom-1 right-1" v-if="buildMode && isPart && !selected && item.inventoryPart.completed_robot_id === null">
             <inventory-mini-button type="add" @click="emit('addPart', item)"></inventory-mini-button> 
         </div>
-        <div class="absolute bottom-1 right-1" v-if="buildMode && isPart && item.inventoryPart.completed_robot_id !== null">
-            <inventory-mini-button type="remove"></inventory-mini-button> 
+        <div class="absolute bottom-1 right-1" v-if="buildMode && isPart && selected && item.inventoryPart.completed_robot_id === null">
+            <inventory-mini-button type="remove" @click="emit('removePart', item)"></inventory-mini-button> 
         </div>
         <div class="absolute bottom-1 flex-col right-1" v-if="!buildMode && isCompletedRobot">
             <inventory-mini-button type="delete"></inventory-mini-button> 
@@ -29,6 +29,7 @@
 const props = defineProps<{
   item: itemBoxProp
   buildMode: boolean
+  selected: boolean
 }>()
 
 const isPart = computed(() => {
@@ -52,6 +53,10 @@ function handleBuildMode(){
 const emit = defineEmits<{addPart: [item: itemBoxProp]
 removePart: [item: itemBoxProp]
 }>()
+
+
+
+
 
 </script>
 
