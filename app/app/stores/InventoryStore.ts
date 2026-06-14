@@ -153,7 +153,36 @@ export const useInventoryStore = defineStore('inventory', {
       await this.refreshInventory()
       return robot
     },
-    
+    async deleteRobot(robotId: string) {
+  const supabase = getSupabase()
+  const user = await useLoginStore().getUserData()
+
+  const { error: partsError } = await supabase // Return the robot's parts to the inventory
+    .from('owned_robot_parts')
+    .update({
+      completed_robot_id: null,
+    })
+    .eq('completed_robot_id', robotId)
+    .eq('user_id', user.user_id)
+
+  if (partsError) {
+    console.error('Error releasing robot parts:', partsError)
+    throw partsError
+  }
+
+  const { error: robotError } = await supabase //delete completed robot row
+    .from('complete_robots')
+    .delete()
+    .eq('completed_robot_id', robotId)
+    .eq('user_owned', user.user_id)
+
+  if (robotError) {
+    console.error('Error deleting robot:', robotError)
+    throw robotError
+  }
+
+  await this.refreshInventory()
+},
     async initialize() {
             await this.fetchParts()
             await this.fetchCompletedRobots()
