@@ -16,7 +16,7 @@
                 <div class="w-[95%] h-[2%] rounded-full bg-yellow-400"></div>
                 <div class="h-full w-full flex flex-wrap flex-row gap-5 items-center justify-center p-2 overflow-y-scroll scrollbar-gutter stable pt-6"> 
                     <InventoryItemBox v-for="item in filteredItemBoxProps" 
-                    :item="item" :buildMode="buildMode" @add-part="addPartToRobot" @remove-part="removePartFromRobot" :selected="isSelected(item)" @edit-robot="startEditingRobot" @delete-robot="deleteRobot" v-if="filteredItemBoxProps.length > 0"/>
+                    :item="item" :buildMode="buildMode" @add-part="addPartToRobot" @remove-part="removePartFromRobot" :selected="isSelected(item)" @delete-robot="deleteRobot" v-if="filteredItemBoxProps.length > 0"/>
                     <div class="border-yellow-500 border-2 rounded-2xl w-full h-full flex justify-center items-center"
                     v-else>
                         <h2 class="press-start text-black text-center text-2xl">NO ITEMS FOUND</h2>
@@ -242,35 +242,6 @@ function clearSelectedParts() {
     const slot of Object.keys(selectedParts) as RobotSlot[]
   ) {
     selectedParts[slot] = null
-  }
-}
-
-function startEditingRobot(robotId: string) {
-  clearSelectedParts()
-
-  activeRobotId.value = robotId
-  buildMode.value = true
-
-  const robotItem = itemBoxProps.value.find(
-    item =>
-      item.inventoryPart.part_id === null &&
-      item.inventoryPart.completed_robot_id === robotId  
-  )
-
-  robotName.value = robotItem?.itemInfo.name ?? ''
-
-  const robotParts = itemBoxProps.value.filter(
-    item =>
-      item.inventoryPart.part_id !== null &&
-      item.inventoryPart.completed_robot_id === robotId //parts which have that robot id connected to them in the tables
-  )
-
-  for (const part of robotParts) {
-    const slot = part.itemInfo.body_part as RobotSlot
-
-    if (slot in selectedParts) {
-      selectedParts[slot] = part
-    }
   }
 }
 

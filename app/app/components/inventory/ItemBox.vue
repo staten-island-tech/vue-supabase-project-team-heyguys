@@ -20,7 +20,6 @@
         </div>
         <div class="absolute bottom-1 flex-col right-1" v-if="!buildMode && isCompletedRobot">
             <inventory-mini-button type="delete"   @click="emit('deleteRobot',item.inventoryPart.completed_robot_id!)"></inventory-mini-button> 
-            <inventory-mini-button type="edit" @click="emit('editRobot',item.inventoryPart.completed_robot_id!)"></inventory-mini-button>
         </div>
     </div>
 </template>
@@ -52,7 +51,6 @@ function handleBuildMode(){
 
 const emit = defineEmits<{addPart: [item: itemBoxProp]
 removePart: [item: itemBoxProp]
-editRobot: [robotId: string]
 deleteRobot: [robotId: string]
 }>()
 
