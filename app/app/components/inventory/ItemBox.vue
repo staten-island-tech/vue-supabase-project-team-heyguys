@@ -56,8 +56,6 @@ removePart: [item: itemBoxProp]
 
 
 
-
-
 </script>
 
 <style scoped>
