@@ -25,7 +25,7 @@
             </div>
             <div class="flex flex-col justify-around mb-[-10] w-300px">
                 <button class="bg-white flex border-yellow-500 border-2 text-2xl rounded-lg press-start text-yellow-500 h-min w-full px-5 py-2 pr-10 pl-10 mt-[30px]
-                transition-all ease-in-out hover:bg-yellow-200 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-yellow-300" @click="buildMode = !buildMode"> {{ buildMode ? 'End Build' : 'Build New' }}</button>
+                transition-all ease-in-out hover:bg-yellow-200 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-yellow-300" @click="toggleBuildMode"> {{ buildMode ? 'End Build' : 'Build New' }}</button>
                 <div class ="h-full w-full justify-between bg-gray-300 mt-1 rounded-xl">
                     <div class="flex items-center justify-center w-full h-full">
                     <InventoryBuildMode v-if="buildMode" :selected-parts="selectedParts"></InventoryBuildMode>
@@ -98,8 +98,6 @@ return inventoryStore.inventory.map((item: inventoryPart) => {
   })
 })
 
-const activeRobotId = ref<string | null>(null)
-
 const visibleItemBoxProps = computed(() => {
   return itemBoxProps.value.filter((item) => {
     const isRobot = item.inventoryPart.part_id === null
@@ -107,19 +105,8 @@ const visibleItemBoxProps = computed(() => {
     if (isRobot) {
       return !buildMode.value
     }
-
-    const assignedRobotId =
-      item.inventoryPart.completed_robot_id
-
-    if (assignedRobotId === null) {
-      return true
-    }
-
-    return (
-      buildMode.value &&
-      activeRobotId.value === assignedRobotId
-    )
-  })
+    return item.inventoryPart.completed_robot_id === null
+    })
 })
 
 let filteredItemBoxProps:ComputedRef<itemBoxProp[]> = computed(() => {
@@ -249,13 +236,6 @@ async function deleteRobot(robotId: string) { //deleting robots
 
   try {
     await inventoryStore.deleteRobot(robotId)
-
-    if (activeRobotId.value === robotId) {
-      activeRobotId.value = null
-      buildMode.value = false
-      robotName.value = ''
-      clearSelectedParts()
-    }
   } catch (error) {
     console.error('Could not delete robot:', error)
 
@@ -264,6 +244,16 @@ async function deleteRobot(robotId: string) { //deleting robots
         ? error.message
         : 'Could not delete robot.'
   }
+}
+
+function toggleBuildMode() {
+  if (buildMode.value) {
+    clearSelectedParts()
+    robotName.value = ''
+    buildError.value = ''
+  }
+
+  buildMode.value = !buildMode.value
 }
 </script>
 

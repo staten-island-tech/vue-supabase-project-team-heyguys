@@ -153,40 +153,93 @@ export const useInventoryStore = defineStore('inventory', {
       await this.refreshInventory()
       return robot
     },
+
+    async returnRobotParts(robotId: string) {
+  const supabase = getSupabase()
+  const user = await useLoginStore().getUserData()
+
+  const { data: robotParts, error: fetchError } = await supabase
+    .from('owned_robot_parts')
+    .select('*')
+    .eq('completed_robot_id', robotId)
+    .eq('user_id', user.user_id)
+
+  if (fetchError) {
+    console.error('Error fetching robot parts:', fetchError)
+    throw fetchError
+  }
+
+  for (const robotPart of robotParts ?? []) {
+    const { data: availablePart, error: availableError } =
+      await supabase
+        .from('owned_robot_parts')
+        .select('*')
+        .eq('user_id', user.user_id)
+        .eq('part_id', robotPart.part_id)
+        .is('completed_robot_id', null)
+        .maybeSingle()
+
+    if (availableError) {
+      console.error(
+        'Error finding available part:',
+        availableError,
+      )
+      throw availableError
+    }
+
+    if (availablePart) { // Add the returned quantity to the  row
+      const { error: quantityError } = await supabase
+        .from('owned_robot_parts')
+        .update({
+          quantity:
+            availablePart.quantity + robotPart.quantity,
+        })
+        .eq('uuid', availablePart.uuid)
+        .eq('user_id', user.user_id)
+
+      if (quantityError) throw quantityError
+
+      const { error: deletePartError } = await supabase  // Remove the extra row
+        .from('owned_robot_parts')
+        .delete()
+        .eq('uuid', robotPart.uuid)
+        .eq('user_id', user.user_id)
+
+      if (deletePartError) throw deletePartError
+    } else {
+      const { error: releaseError } = await supabase
+        .from('owned_robot_parts')
+        .update({
+          completed_robot_id: null,
+        })
+        .eq('uuid', robotPart.uuid)
+        .eq('user_id', user.user_id)
+
+      if (releaseError) throw releaseError
+    }
+  }
+},
     async deleteRobot(robotId: string) {
   const supabase = getSupabase()
   const user = await useLoginStore().getUserData()
 
-  const { error: partsError } = await supabase // Return the robot's parts to the inventory
-    .from('owned_robot_parts')
-    .update({
-      completed_robot_id: null,
-    })
-    .eq('completed_robot_id', robotId)
-    .eq('user_id', user.user_id)
-
-  if (partsError) {
-    console.error('Error releasing robot parts:', partsError)
-    throw partsError
-  }
-
-  const { error: robotError } = await supabase //delete completed robot row
+  await this.returnRobotParts(robotId)
+  const { error } = await supabase // Return the robot's parts to the inventory
     .from('complete_robots')
     .delete()
     .eq('completed_robot_id', robotId)
     .eq('user_owned', user.user_id)
 
-  if (robotError) {
-    console.error('Error deleting robot:', robotError)
-    throw robotError
+  if (error) {
+    console.error('Error releasing robot parts:', error)
+    throw error
   }
-
   await this.refreshInventory()
 },
+
     async initialize() {
-            await this.fetchParts()
-            await this.fetchCompletedRobots()
-            this.initialized = true
+         if (this.initialized) return
+         await this.refreshInventory()
         }
     }
 })  
