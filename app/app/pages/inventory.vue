@@ -16,7 +16,7 @@
                 <div class="w-[95%] h-[2%] rounded-full bg-yellow-400"></div>
                 <div class="h-full w-full flex flex-wrap flex-row gap-5 items-center justify-center p-2 overflow-y-scroll scrollbar-gutter stable pt-6"> 
                     <InventoryItemBox v-for="item in filteredItemBoxProps" 
-                    :item="item" :buildMode="buildMode" @add-part="addPartToRobot" @remove-part="removePartFromRobot" :selected="isSelected(item)" @edit-robot="startEditingRobot" @delete-robot="deleteRobot" v-if="filteredItemBoxProps.length > 0"/>
+                    :item="item" :buildMode="buildMode" @add-part="addPartToRobot" @remove-part="removePartFromRobot" :selected="isSelected(item)" @edit-robot="startEditingRobot" @delete-robot="deleteRobot"  :completed-robot-parts=" item.inventoryPart.part_id === null? getCompletedRobotParts(item.inventoryPart.completed_robot_id!): undefined" v-if="filteredItemBoxProps.length > 0"/>
                     <div class="border-yellow-500 border-2 rounded-2xl w-full h-full flex justify-center items-center"
                     v-else>
                         <h2 class="press-start text-black text-center text-2xl">NO ITEMS FOUND</h2>
@@ -294,6 +294,31 @@ async function deleteRobot(robotId: string) { //deleting robots
         : 'Could not delete robot.'
   }
 }
+
+function getCompletedRobotParts(robotId: string) {
+  const parts: Record<RobotSlot, itemBoxProp | null> = {
+    Head: null,
+    Body: null,
+    'Left Arm': null,
+    'Right Arm': null,
+    'Left Leg': null,
+    'Right Leg': null,
+  }
+
+  const matchingParts = itemBoxProps.value.filter(
+    item =>
+      item.inventoryPart.part_id !== null &&
+      item.inventoryPart.completed_robot_id === robotId
+  )
+
+  for (const part of matchingParts) {
+    const slot = part.itemInfo.body_part as RobotSlot
+    parts[slot] = part
+  }
+
+  return parts
+}
+
 </script>
 
 <style scoped>

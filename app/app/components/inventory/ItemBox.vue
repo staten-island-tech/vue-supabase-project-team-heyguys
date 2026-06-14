@@ -3,6 +3,7 @@
             transition-all ease-in-out duration-300 hover:bg-gray-100/95 hover:text-yellow-500 hover:-translate-y-1 hover:border-yellow-500 hover:border" 
             >
         <img v-if="!isCompletedRobot" :src="item.itemInfo.sprite_url" alt="insert sprite" class="flex scale-[2.5] aspect-square w-12 h-12 object-contain">
+        <InventoryRobotSprite v-if="isCompletedRobot && completedRobotParts" :parts="completedRobotParts"/>
         <div class="flex mt-2 ml-2">
             <h3 class="text-[0.63rem] text-gray-800 absolute bottom-1 left-1">{{ item.inventoryPart.quantity }}x</h3>
         </div>
@@ -30,10 +31,20 @@
 </template>
 
 <script setup lang="ts">
+
+type RobotSlot =
+  | 'Head'
+  | 'Body'
+  | 'Left Arm'
+  | 'Right Arm'
+  | 'Left Leg'
+  | 'Right Leg'
+
 const props = defineProps<{
   item: itemBoxProp
   buildMode: boolean
   selected: boolean
+  completedRobotParts?: Record<RobotSlot, itemBoxProp | null>
 }>()
 
 const isPart = computed(() => {
