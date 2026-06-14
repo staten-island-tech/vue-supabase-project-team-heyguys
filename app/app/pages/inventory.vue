@@ -111,6 +111,21 @@ const selectedParts = reactive<Record<RobotSlot, itemBoxProp | null>>({
   'Right Leg': null,
 })
 
+function addPartToRobot(item: itemBoxProp) {
+  const slot = item.itemInfo.body_part as RobotSlot //slot to only store one value
+
+  if (!(slot in selectedParts)) {
+    console.error('Invalid robot part:', slot)
+    return
+  }
+
+  if (item.inventoryPart.completed_robot_id !== null) {
+    console.error('This part already belongs to another robot')
+    return
+  }
+
+  selectedParts[slot] = item //replace any repeats with whatever the user chooses next of the same type
+}
 </script>
 
 <style scoped>
