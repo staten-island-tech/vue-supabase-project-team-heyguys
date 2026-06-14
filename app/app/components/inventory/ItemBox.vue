@@ -11,6 +11,10 @@
             <p class="text-yellow-400 text-center my-[7%]" :class="nameClass">{{ item.itemInfo.name }}</p>
             <p class="text-[.7rem]">{{ item.itemInfo.body_part }}</p>
         </inventory-info-box>
+        <inventory-info-box v-if="isCompletedRobot" class="flex flex-col justify-start">
+            <p class="text-yellow-400 text-center my-[7%]" :class="nameClass">{{ item.itemInfo.name }}</p>
+            <p class="text-[.7rem]">Completed Robot</p>
+        </inventory-info-box>
         </div>
         <div class="absolute bottom-1 right-1" v-if="buildMode && isPart && !selected && item.inventoryPart.completed_robot_id === null">
             <inventory-mini-button type="add" @click="emit('addPart', item)"></inventory-mini-button> 
