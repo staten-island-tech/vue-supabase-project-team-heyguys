@@ -94,6 +94,23 @@ let filteredItemBoxProps:ComputedRef<itemBoxProp[]> = computed(() => {
 
 currentFilter.value = "All"
 
+type RobotSlot =
+  | 'Head'
+  | 'Body'
+  | 'Left Arm'
+  | 'Right Arm'
+  | 'Left Leg'
+  | 'Right Leg'
+
+const selectedParts = reactive<Record<RobotSlot, itemBoxProp | null>>({
+  Head: null,
+  Body: null,
+  'Left Arm': null,
+  'Right Arm': null,
+  'Left Leg': null,
+  'Right Leg': null,
+})
+
 </script>
 
 <style scoped>
