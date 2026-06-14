@@ -9,8 +9,8 @@
                 {{ result.item?.body_part }}
             </h3> <!-- body part -->
         </div>
-        <div class="w-[60%] lg:w-[50%] aspect-square bg-black text-black rounded-box">
-            hi
+        <div class="w-[50%] lg:w-[50%] aspect-square bg-black text-black rounded-box">
+            <img :src="result.item?.sprite_url" :alt="result.item?.name" class="w-full h-full object-contain">
         </div>
          <h3 class="press-start text-md text-black font-extrabold text-center">
             Rarity: {{result.rarityName}}
