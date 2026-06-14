@@ -30,12 +30,12 @@
                     <div class="flex items-center justify-center w-full h-full">
                     <InventoryBuildMode v-if="buildMode" :selected-parts="selectedParts"></InventoryBuildMode>
                     </div>
-                       <div v-if="buildMode" class="flex flex-row absolute bottom-8 gap-[2px] items-center w-max">
+                       <form v-if="buildMode" @submit.prevent="confirmRobotBuild" class="flex flex-row absolute bottom-8 gap-[2px] items-center w-max">
                     <label for="RobotNames" class="border-2 border-gray-200 rounded-md">Robot Name</label>
                     <input type="text" id="RobotNames" v-model.trim="robotName" class="flex w-[190px] h-min bg-white border-2 px-4 py-2 border-yellow-500 rounded-lg  text-black text-sm press-start placeholder:text-black outline-none focus:ring-2 focus:ring-yellow-300" placeholder="Name">
-                    <button type="submit" :disabled="savingRobot || !completedList || !robotName" class= "bg-green-300 flex border-green-500 border-2 text-sm rounded-lg press-start text-white h-min w-min px-4 py-2
+                    <button type="submit" :disabled="savingRobot || !completedList || !robotName.trim()" class= "bg-green-300 flex border-green-500 border-2 text-sm rounded-lg press-start text-white h-min w-min px-4 py-2
                 transition-all ease-in-out hover:bg-green-400 hover:-translate-y-[2%] active:translate-y-[2%] active:bg-green-300">{{ savingRobot ? 'Saving...' : 'Done' }}</button>
-                </div>
+                       </form>
                 </div>
         
             </div>
@@ -95,24 +95,39 @@ return inventoryStore.inventory.map((item: inventoryPart) => {
   })
 })
 
-inventoryStore.inventory.forEach((item:inventoryPart) => {
-    if(item.part_id) {
-        let info = gachaStore.rewardData?.find((gachaItem:robotPart) => gachaItem.part_id === item.part_id)
+const activeRobotId = ref<string | null>(null)
 
-        itemBoxProps.value.push({
-            inventoryPart: item,
-            itemInfo: info
-        } as itemBoxProp)
+const visibleItemBoxProps = computed(() => {
+  return itemBoxProps.value.filter((item) => {
+    const isRobot = item.inventoryPart.part_id === null
+
+    if (isRobot) {
+      return !buildMode.value
     }
+
+    const assignedRobotId =
+      item.inventoryPart.completed_robot_id
+
+    if (assignedRobotId === null) {
+      return true
+    }
+
+    return (
+      buildMode.value &&
+      activeRobotId.value === assignedRobotId
+    )
+  })
 })
 
 let filteredItemBoxProps:ComputedRef<itemBoxProp[]> = computed(() => {
+    const visibleItems = visibleItemBoxProps.value
     if(currentFilter.value == "All") {
-        return itemBoxProps.value
+        return visibleItems
     } else if (currentFilter.value == "Complete Robots") {
-        return itemBoxProps.value // placeholder bc we dont have robots
+        return visibleItems.filter(
+      item => item.inventoryPart.part_id === null)
     } else {
-        return itemBoxProps.value.filter((item:itemBoxProp) => item.itemInfo.body_part == currentFilter.value)
+        return visibleItems.filter((item) => item.itemInfo.body_part == currentFilter.value)
     }
 })
 
@@ -213,6 +228,9 @@ async function confirmRobotBuild() {
       error instanceof Error
         ? error.message
         : 'Could not build robot.'
+  }
+    finally {
+    savingRobot.value = false
   }
 }
 
